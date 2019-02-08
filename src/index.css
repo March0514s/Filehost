@@ -12,3 +12,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.fl-header{
+  padding-right:30px;
+}
+
+.fl-table td{
+  vertical-align: bottom;
+}
+
+.space-right{
+  padding-right: 10px;
+}
