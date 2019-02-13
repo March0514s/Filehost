@@ -13,7 +13,7 @@ function Filelist() {
                     <td><i class="far fa-folder fa-2x " /> Information Systems(1)</td>
                     <td>shared folder</td>
                     <td>--</td>
-                    <td><button class="button">Share <i class="fas fa-caret-down" /></button></td>
+                    <td><button class="button"><i class="fas fa-link" style={{marginLeft: "5px"}} /></button></td>
                 </tr>
                 <tr>
                     <td><i class="far fa-folder fa-2x " /> Intranet</td>
@@ -52,13 +52,13 @@ function Filelist() {
                     <td></td>
                 </tr>
                 <tr>
-                    <td><i class="far fa-folder fa-2x " /> TitaniumBackupOld</td>
+                    <td><i class="far fa-image fa-2x " /> Gangbang Nude .png</td>
                     <td>folder</td>
                     <td>--</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td><i class="far fa-folder fa-2x " /> Workplace Files</td>
+                    <td><i class="far fa-file fa-2x " /> Secret Passwords.txt</td>
                     <td>folder</td>
                     <td>--</td>
                     <td></td>

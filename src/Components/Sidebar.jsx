@@ -11,11 +11,11 @@ function Sidebar() {
                 </figure>
             </div>
             <div style={{ marginTop: "45px", display: "flex", flexDirection: "column" }}>
-                <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-file" /> Files</a>
-                <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-image" /> Photos</a>
-                <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-share-alt" /> Sharing</a>
-                <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-link" /> Links</a>
-                <a style={{ paddingBottom: "10px" }} href="#"><i class="far fa-clock" /> Events</a>
+                <a class="green-text" style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-file" /> Files</a>
+                <a class="green-text" style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-image" /> Photos</a>
+                <a class="green-text" style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-share-alt" /> Sharing</a>
+                <a class="green-text" style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-link" /> Links</a>
+                <a class="green-text" style={{ paddingBottom: "10px" }} href="#"><i class="far fa-clock" /> Events</a>
             </div>
         </div>
     )

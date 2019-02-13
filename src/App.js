@@ -8,13 +8,15 @@ import FilelistHeader from './Components/FilelistHeader';
 import Filelist from './Components/Filelist';
 import Login from './Components/Login';
 import ModalUpload from './Components/ModalUpload';
+import ModalDelete from './Components/ModalDelete';
 
 class App extends Component {
   render() {
     return (
-      //Login
-      // <Login/>
-      //Main View
+      <div>
+      {/* Login */}
+      {/* <Login/> */}
+      {/* Main View */}
       <div>
         <section class="section is-paddingless">
           <div class="container">
@@ -32,8 +34,10 @@ class App extends Component {
           </div>
         </section>
       </div>
-      //Modal view
-      // <ModalUpload/>
+      {/* Modal view */}
+      {/* <ModalUpload/> */}
+      <ModalDelete/>
+      </div>
     );
   }
 }

@@ -11,12 +11,11 @@ function ModalUpload() {
                         <p class="is-3" >You can upload multiple files.</p>
                         <hr />
                         <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-                            <div>File 1.ext</div>
-                            <div>File 2.ext</div>
-                            <div>File 3.ext</div>
+                            <div>File 1.ext <a><i class="far fa-times-circle"/></a></div>
+                            <div>File 2.ext <a><i class="far fa-times-circle"/></a></div>
+                            <div>File 3.ext <a><i class="far fa-times-circle"/></a></div>
                         </div>
-                        <hr />
-                        <div class="file has-name" style={{ display: "flex", justifyContent: "center" }}>
+                        <div class="file has-name is-fullwidth" style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
                             <label class="file-label">
                                 <input class="file-input" type="file" name="resume" multiple/>
                                 <span class="file-cta">
@@ -24,16 +23,20 @@ function ModalUpload() {
                                         <i class="fas fa-upload"></i>
                                     </span>
                                     <span class="file-label is-primary">
-                                        Upload
+                                        Browse...
                                     </span>
                                 </span>
                                 <span class="file-name">
-                                    Browse...
+                                    Drop file(s) here
                                 </span>
                             </label>
+                            
                         </div>
-
+                        <div style={{marginTop: "15px"}}>
+                        <button class="button is-primary is-fullwidth">Upload</button>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
             <button class="modal-close is-large" aria-label="close"></button>

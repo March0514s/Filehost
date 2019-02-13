@@ -25,7 +25,7 @@ code {
   padding-right: 10px;
 }
 
-a:link{
+a, a:link, a:visited{
   color:#018e79;
 }
 

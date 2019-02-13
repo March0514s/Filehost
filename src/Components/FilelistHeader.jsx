@@ -7,7 +7,6 @@ function FilelistHeader() {
                     <tr>
                         <td class="is-paddingless">
                             <span class="fl-header ">Information Systems(1)</span>
-                            <a class="fl-header" href="#"><i class="fas fa-file-download" /> Download</a>
                             <a class="fl-header" href="#"><i class="fas fa-trash-alt" /> Delete...</a>
                             <a class="fl-header" href="#"><i class="fas fa-pen" /> Rename</a>
                             <a class="fl-header" href="#"><i class="fas fa-file-export" /> Move...</a>
