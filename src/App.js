@@ -12,7 +12,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-        isLoggedIn: false,
         isUploadingFile: false,
         isRemovingFile: false,
         token: null
@@ -27,7 +26,7 @@ class App extends Component {
         <BrowserRouter >
           <div>
           <Route exact path='/' render={(props) => 
-          this.state.isLoggedIn ? <Home {...props} />  : (<Redirect to= '/login'/>)
+          this.state.token ? <Home {...props} />  : (<Redirect to= '/login'/>)
           } />
           <Route path='/login' render={props => <Login {...props} token={this.state.token} updateTokenCB={this.updateToken}/>}/>
           </div> 
