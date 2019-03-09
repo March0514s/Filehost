@@ -8,7 +8,7 @@ function UserHeader() {
                     <div class="dropdown is-hoverable is-right">
                         <div class="dropdown-trigger">
                             <button class="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                                <span><i class="far fa-user-circle" /> Samuel Ng</span>
+                                <span><i class="far fa-user-circle" /> Marcus Dv</span>
                                 <span class="icon is-small">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </span>

@@ -1,42 +1,37 @@
 import React, { Component } from 'react';
 import './App.css';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
-import Sidebar from './Components/Sidebar';
-import UserHeader from './Components/UserHeader';
-import HeaderSearch from './Components/HeaderSearch';
-import FilelistHeader from './Components/FilelistHeader';
-import Filelist from './Components/Filelist';
-import Login from './Components/Login';
+
+import Login from './Containers/Login';
+import Home from './Containers/Home';
 import ModalUpload from './Components/ModalUpload';
 import ModalDelete from './Components/ModalDelete';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+        isLoggedIn: false,
+        isUploadingFile: false,
+        isRemovingFile: false,
+        token: null
+        }
+  }
+
+  updateToken = token => this.setState({token})
+
   render() {
     return (
-      <div>
-      {/* Login */}
-      {/* <Login/> */}
-      {/* Main View */}
-      <div>
-        <section class="section is-paddingless">
-          <div class="container">
-            <div class="columns">
-              <Sidebar />
-              <div class="column">
-                <UserHeader />
-                <HeaderSearch />
-                <div>
-                  <FilelistHeader />
-                  <Filelist />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-      {/* Modal view */}
-      {/* <ModalUpload/> */}
-      <ModalDelete/>
+      <div class="is-paddingless">
+        <BrowserRouter >
+          <div>
+          <Route exact path='/' render={(props) => 
+          this.state.isLoggedIn ? <Home {...props} />  : (<Redirect to= '/login'/>)
+          } />
+          <Route path='/login' render={props => <Login {...props} token={this.state.token} updateTokenCB={this.updateToken}/>}/>
+          </div> 
+        </BrowserRouter>
       </div>
     );
   }
