@@ -12,13 +12,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-        isUploadingFile: false,
-        isRemovingFile: false,
-        token: null
+        modalAction: null,
+        token: null,
         }
   }
 
-  updateToken = token => this.setState({token})
+  modalAction = action => this.setState({modalAction : action});
+  updateToken = token => this.setState({token});
+  
 
   render() {
     return (
@@ -26,11 +27,19 @@ class App extends Component {
         <BrowserRouter >
           <div>
           <Route exact path='/' render={(props) => 
-          this.state.token ? <Home {...props} />  : (<Redirect to= '/login'/>)
+          this.state.token ? <Home {...props} 
+                                   token={this.state.token} 
+                                   modalActionCB={this.modalAction} 
+                                   updateTokenCB={this.updateToken}/>  : 
+                              <Redirect to= '/login'/>
           } />
           <Route path='/login' render={props => <Login {...props} token={this.state.token} updateTokenCB={this.updateToken}/>}/>
           </div> 
         </BrowserRouter>
+        {/* Modal */}
+        {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction} /> : ''}
+        {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} /> : ''} 
+      }
       </div>
     );
   }
