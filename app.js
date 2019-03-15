@@ -7,7 +7,7 @@ const conf = require('./config');
 const express = require('@feathersjs/express');
 const feathers = require('@feathersjs/feathers');
 const jwt = require('./jwt');
-const { filesService } = require('./entities/file');
+const { dirEntriesService } = require('./entities/dirEntry');
 const { sessionsService } = require('./entities/session');
 const { uploadsService } = require('./entities/upload');
 
@@ -33,7 +33,7 @@ app.use(async (req, res, next) => {
 // parsed token data in req.feathers.token.
 app.use(async (req, res, next) => {
   const { authorization } = req.headers;
-
+  console.log(req.headers);
   if (!authorization) {
     return next();
   }
@@ -59,14 +59,27 @@ app.get('/files/:id/:slug', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const file = await filesService.instance.get(id);
+    const entry = await dirEntriesService.instance.get(id);
 
-    if (!file) {
+    if (!entry || entry.type !== 'file') {
       return res.sendStatus(404);
     }
 
-    if (file.accessPolicy === 'auth' && !req.token) {
-      console.log(
+    const upload = (await uploadsService.instance.find({
+      query: {
+        _id: entry.uploadId,
+        status: 'success',
+      },
+    }))[0];
+
+    if (!upload) {
+      throw new Error(
+        `File found with no matching upload.`
+      );
+    }
+
+    if (entry.accessPolicy === 'auth' && !req.token) {
+      console.warn(
         `[WARN] Attempt to access file with 'auth' ` +
         `accessPolicy. ${JSON.stringify({
           clientAddr: req.ip,
@@ -77,9 +90,8 @@ app.get('/files/:id/:slug', async (req, res) => {
 
       return res.sendStatus(404);
     }
-
-    res.set('Content-Type', file.mime);
-    res.sendFile(`${conf.uploadsDir}/${file.hash}`);
+    res.set('Content-Type', upload.mime);
+    res.sendFile(`${conf.uploadsDir}/${upload.hash}`);
   }
   catch (err) {
     console.error(err);
@@ -97,7 +109,7 @@ app.use((req, res, next) => {
 });
 
 // Register Feathers application services.
-filesService.register(app);
+dirEntriesService.register(app);
 sessionsService.register(app);
 uploadsService.register(app);
 

@@ -5,7 +5,6 @@ const dbService = require('feathers-nedb');
 const parseUploadBody = require('../../utils/parseUploadBody');
 const requireAuthToken = require('../../hooks/requireAuthToken');
 const upload = require('../../utils/upload');
-const { filesService } = require('../file');
 
 exports.endpointPrefix = '/api/uploads';
 
@@ -39,20 +38,21 @@ exports.register = app => {
           ctx.st.bodyParser = parseUploadBody(req);
           ctx.st.file = await ctx.st.bodyParser.file;
 
+          const { fields } = ctx.st.bodyParser;
+
           ctx.data = {
-            createdBy: null,
-            status: null,
-            resumeMode: 'overwrite',
+            uploader: null,
             size: null,
             hash: null,
-
-            // Store all other non-file fields so far.
-            ...ctx.st.bodyParser.fields,
+            mime: null,
+            resumeMode: null,
+            status: null,
+            startTime: null,
+            endTime: null,
           };
 
-          for (const [k, field] of Object.entries(
-            ctx.st.bodyParser.fields,
-          )) {
+          for (const [k, field] of Object.entries(fields)) {
+            // TODO: Field validations / sanitization.
             ctx.data[k] = field.val;
           }
 
@@ -62,8 +62,16 @@ exports.register = app => {
             }
           }
 
-          ctx.data.createdBy = ctx.params.token.user;
-          ctx.data.status = 'uploading';
+          ctx.data = {
+            ...ctx.data,
+
+            uploader: req.token.user,
+            mime: ctx.st.file.mime,
+            resumeMode: 'overwrite',
+            status: 'uploading',
+            startTime: Date.now(),
+            endTime: null,
+          };
         },
       ],
 
@@ -95,27 +103,17 @@ exports.register = app => {
 
             await ctx.st.bodyParser.finished;
 
-            const createdFile = (
-              await filesService.instance.create({
-                createdBy: ctx.params.token.user,
-                size: ctx.data.size,
-                hash: ctx.data.hash,
-                mime: ctx.st.file.mime,
-                accessPolicy: 'auth',
-              })
-            );
-
             ctx.result = await serviceInstance.patch(
               ctx.result._id, {
                 status: 'success',
+                endTime: Date.now(),
               },
             );
-
-            ctx.result.createdFile = createdFile;
           }
           catch (err) {
             await serviceInstance.patch(ctx.result._id, {
               status: 'failed',
+              endTime: Date.now(),
             });
 
             throw err;
