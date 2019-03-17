@@ -7,6 +7,8 @@ const conf = require('./config');
 const express = require('@feathersjs/express');
 const feathers = require('@feathersjs/feathers');
 const jwt = require('./jwt');
+const testAccessPolicy = require('./utils/testAccessPolicy');
+const handleAccessPolicyViolation = require('./utils/handleAccessPolicyViolation');
 const { dirEntriesService } = require('./entities/dirEntry');
 const { sessionsService } = require('./entities/session');
 const { uploadsService } = require('./entities/upload');
@@ -61,6 +63,10 @@ app.get('/files/:id/:slug', async (req, res) => {
 
     const entry = await dirEntriesService.instance.get(id);
 
+    if (!testAccessPolicy(req, entry)) {
+      return handleAccessPolicyViolation(req, res, entry);
+    }
+
     if (!entry || entry.type !== 'file') {
       return res.sendStatus(404);
     }
@@ -78,18 +84,6 @@ app.get('/files/:id/:slug', async (req, res) => {
       );
     }
 
-    if (entry.accessPolicy === 'auth' && !req.token) {
-      console.warn(
-        `[WARN] Attempt to access file with 'auth' ` +
-        `accessPolicy. ${JSON.stringify({
-          clientAddr: req.ip,
-          slug: req.params.slug,
-          fileId: id,
-        })}`
-      );
-
-      return res.sendStatus(404);
-    }
     res.set('Content-Type', upload.mime);
     res.sendFile(`${conf.uploadsDir}/${upload.hash}`);
   }
