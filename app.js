@@ -56,6 +56,29 @@ app.use(async (req, res, next) => {
 // Serve static files from public directory.
 app.use(express.static(conf.publicDir));
 
+// Redirect file requests with no slug.
+app.get('/files/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const entry = await dirEntriesService.instance.get(id);
+
+    if (!testAccessPolicy(req, entry)) {
+      return handleAccessPolicyViolation(req, res, entry);
+    }
+
+    if (!entry || entry.type !== 'file') {
+      return res.sendStatus(404);
+    }
+
+    res.redirect(`/files/${id}/${entry.name}`);
+  }
+  catch (err) {
+    console.error(err);
+    res.send(err);
+  }
+});
+
 // Serve uploaded files.
 app.get('/files/:id/:slug', async (req, res) => {
   try {
