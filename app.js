@@ -33,7 +33,7 @@ app.use(async (req, res, next) => {
 // parsed token data in req.feathers.token.
 app.use(async (req, res, next) => {
   const { authorization } = req.headers;
-  console.log(req.headers);
+  console.log(req.headers, authorization);
   if (!authorization) {
     return next();
   }
