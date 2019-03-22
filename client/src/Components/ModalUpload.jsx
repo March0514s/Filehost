@@ -5,7 +5,7 @@ class ModalUpload extends Component {
         super(props)
 
         this.state = {
-            selectedFile: null
+            selectedFile: null,
         }
     }
 
@@ -14,31 +14,48 @@ class ModalUpload extends Component {
     }
 
     onFileChange = e => {
-        // this.setState({ selectedFile: e.files[0]});
-        console.log(e)
-        
+        this.setState({ selectedFile: e.target.files[0] });
+
     };
 
-    onFormSubmit = e => {
+    onFormSubmit = async e => {
         e.preventDefault();
+        if (this.state.selectedFile) {
 
-        const upload = this.upload(this.state.selectedFile);
-        console.log('Upload data:', upload);
+
+            const upload = this.upload(this.state.selectedFile);
+            console.log('Upload data:', await upload);
+            const resData = await upload;
+            
+            
+            const fileEntry = this.createFile({
+                parent: 'root',
+                type: 'file',
+                name: resData.hash,
+                uploadId: resData._id,
+                acessPolicy: 'auth',
+            });
+
+            console.log('File entry:', await fileEntry)
+        }
     };
 
     upload = async file => {
 
         const reqData = new FormData();
         const { selectedFile } = this.state;
-
         reqData.append('size', file.size);
         reqData.append('hash', file.name);
         reqData.append('file', file);
 
+
         const res = await fetch('/api/uploads', {
             method: 'POST',
+            headers: { authorization: this.props.token },
             body: reqData
         });
+
+        console.log(res)
 
         if (!res.ok) {
             throw new Error(
@@ -46,8 +63,25 @@ class ModalUpload extends Component {
             );
         }
 
+        // this.props.modalActionCB(null); //Replace by status bar and success notice.
         return await res.json();
+        
+    }
 
+    createFile = async fileData => {
+        const res = await fetch('/api/dirEntries', {
+            method: 'POST',
+            headers: { authorization: this.props.token }, 
+            body: fileData
+        });
+
+        if (!res.ok){
+            throw new Error(
+                `HTTP error: ${res.status} ${res.statusText}`,
+            );
+        }
+
+        return await res.json();
     }
 
 

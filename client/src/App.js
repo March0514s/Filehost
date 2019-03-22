@@ -7,6 +7,7 @@ import Login from './Containers/Login';
 import Home from './Containers/Home';
 import ModalUpload from './Components/ModalUpload';
 import ModalDelete from './Components/ModalDelete';
+import ModalNewDir from './Components/ModalNewDir';
 
 class App extends Component {
   constructor(props) {
@@ -37,7 +38,8 @@ class App extends Component {
           </div> 
         </BrowserRouter>
         {/* Modal */}
-        {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction} /> : ''}
+        {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction} token={this.state.token} /> : ''}
+        {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction} token={this.state.token} /> : ''}
         {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} /> : ''} 
       }
       </div>

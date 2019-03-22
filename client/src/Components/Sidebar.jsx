@@ -10,6 +10,10 @@ class Sidebar extends Component {
     upload = () => {
         this.props.modalActionCB('upload');
     }
+    
+    newDir = () => {
+        this.props.modalActionCB('newDir');
+    }
 
     render() {
         return (
@@ -29,7 +33,7 @@ class Sidebar extends Component {
                 <hr />
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     <a onClick={this.upload} style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-file-upload" /> New File </a>
-                    <a onClick={this.upload} style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-folder-plus" /> New Folder </a>
+                    <a onClick={this.newDir} style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-folder-plus" /> New Folder </a>
                 </div>
                 <div class="is-hidden" style={{ display: "flex", flexDirection: "column" }}>
                     <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-copy" /> Copy...</a>
