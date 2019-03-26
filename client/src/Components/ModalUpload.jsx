@@ -33,7 +33,7 @@ class ModalUpload extends Component {
                 type: 'file',
                 name: resData.hash,
                 uploadId: resData._id,
-                acessPolicy: 'auth',
+                accessPolicy: 'auth',
             });
 
             console.log('File entry:', await fileEntry)
@@ -43,7 +43,6 @@ class ModalUpload extends Component {
     upload = async file => {
 
         const reqData = new FormData();
-        const { selectedFile } = this.state;
         reqData.append('size', file.size);
         reqData.append('hash', file.name);
         reqData.append('file', file);
@@ -63,7 +62,7 @@ class ModalUpload extends Component {
             );
         }
 
-        // this.props.modalActionCB(null); //Replace by status bar and success notice.
+        this.props.modalActionCB(null); //Replace by status bar and success notice.
         return await res.json();
         
     }
@@ -71,8 +70,9 @@ class ModalUpload extends Component {
     createFile = async fileData => {
         const res = await fetch('/api/dirEntries', {
             method: 'POST',
-            headers: { authorization: this.props.token }, 
-            body: fileData
+            headers: { authorization: this.props.token,
+                       'content-type': 'application/json' }, 
+            body: JSON.stringify(fileData)
         });
 
         if (!res.ok){
@@ -87,45 +87,45 @@ class ModalUpload extends Component {
 
     render() {
         return (
-            <div class="modal is-active">
-                <div class="modal-background" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div class="modal-content" syle={{ display: "flex", justifyContent: "center" }}>
+            <div className="modal is-active">
+                <div className="modal-background" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div className="modal-content" syle={{ display: "flex", justifyContent: "center" }}>
                         <form onSubmit={this.onFormSubmit}>
-                            <div class="box column is-8 is-offset-2">
-                                <h1 class="title has-text-centered" style={{ color: "#018e79" }}>File Upload</h1>
-                                <p class="is-3">Click Browse, to select a File, and then click Upload</p>
-                                <p class="is-3" >You can upload multiple files.</p>
+                            <div className="box column is-8 is-offset-2">
+                                <h1 className="title has-text-centered" style={{ color: "#018e79" }}>File Upload</h1>
+                                <p className="is-3">Click Browse, to select a File, and then click Upload</p>
+                                <p className="is-3" >You can upload multiple files.</p>
                                 <hr />
                                 <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-                                    <div>File 1.ext <a><i class="far fa-times-circle" /></a></div>
-                                    <div>File 2.ext <a><i class="far fa-times-circle" /></a></div>
-                                    <div>File 3.ext <a><i class="far fa-times-circle" /></a></div>
+                                    <div>File 1.ext <div className='button is-white is-small is-primary is-inverted'><i className="far fa-times-circle" /></div></div>
+                                    <div>File 2.ext <div className='button is-white is-small is-primary is-inverted'><i className="far fa-times-circle" /></div></div>
+                                    <div>File 3.ext <div className='button is-white is-small is-primary is-inverted'><i className="far fa-times-circle" /></div></div>
                                 </div>
-                                <div class="file has-name is-fullwidth" style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
-                                    <label class="file-label">
-                                        <input class="file-input" type="file" name="resume" multiple onChange={this.onFileChange} />
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fas fa-upload"></i>
+                                <div className="file has-name is-fullwidth" style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+                                    <label className="file-label">
+                                        <input className="file-input" type="file" name="resume" multiple onChange={this.onFileChange} />
+                                        <span className="file-cta">
+                                            <span className="file-icon">
+                                                <i className="fas fa-upload"></i>
                                             </span>
-                                            <span class="file-label is-primary">
+                                            <span className="file-label is-primary">
                                                 Browse...
                                     </span>
                                         </span>
-                                        <span class="file-name">
+                                        <span className="file-name">
                                             Drop file(s) here
                                 </span>
                                     </label>
 
                                 </div>
                                 <div style={{ marginTop: "15px" }}>
-                                    <button class="button is-primary is-fullwidth">Upload</button>
+                                    <button className="button is-primary is-fullwidth">Upload</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <button onClick={this.close} class="modal-close is-large" aria-label="close"></button>
+                <button onClick={this.close} className="modal-close is-large" aria-label="close"></button>
             </div>
         )
     }

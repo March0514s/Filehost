@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 
 import Login from './Containers/Login';
-import Home from './Containers/Home';
+import Explorer from './Containers/Explorer';
 import ModalUpload from './Components/ModalUpload';
 import ModalDelete from './Components/ModalDelete';
 import ModalNewDir from './Components/ModalNewDir';
@@ -24,11 +24,11 @@ class App extends Component {
 
   render() {
     return (
-      <div class="is-paddingless">
+      <div className="is-paddingless">
         <BrowserRouter >
-          <div>
+          <div className="is-paddingless">
           <Route exact path='/' render={(props) => 
-          this.state.token ? <Home {...props} 
+          this.state.token ? <Explorer {...props} 
                                    token={this.state.token} 
                                    modalActionCB={this.modalAction} 
                                    updateTokenCB={this.updateToken}/>  : 

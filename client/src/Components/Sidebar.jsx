@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import logo from '../img/logo.jpg'
 
 class Sidebar extends Component {
-    constructor(props) {
-        super(props)
-    }
+    // constructor(props) {
+    //     super(props)
+    // }
 
     upload = () => {
         this.props.modalActionCB('upload');
@@ -17,29 +17,29 @@ class Sidebar extends Component {
 
     render() {
         return (
-            <div class="column is-2" style={{ display: "flex", flexDirection: "column", paddingTop: "30px", display: "flex" }}>
+            <div className="column is-2 is-flex" style={{flexDirection: "column", paddingTop: "30px", alignItems: "center" }}>
                 <div>
                     <figure>
-                        <img class="image is-96x96" src={logo} />
+                        <img className="image is-96x96" alt="filehost logo" src={logo} />
                     </figure>
                 </div>
-                <div style={{ marginTop: "45px", display: "flex", flexDirection: "column" }}>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-file" /> My Files</a>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-image" /> My Photos</a>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-share-alt" /> Shared Files</a>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-link" /> Links</a>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="far fa-clock" /> Events</a>
+                <div style={{ marginRight: "70px", marginTop: "45px", display: "flex", flexDirection: "column" }}>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start'}} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-file" /> My Files</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-image" /> My Photos</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-share-alt" /> Shared Files</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-link" /> Links</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="far fa-clock" /> Events</button>
                 </div>
                 <hr />
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <a onClick={this.upload} style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-file-upload" /> New File </a>
-                    <a onClick={this.newDir} style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-folder-plus" /> New Folder </a>
+                <div style={{marginRight: "70px", display: "flex", flexDirection: "column" }}>
+                    <button onClick={this.upload} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file-upload" /> New File </button>
+                    <button onClick={this.newDir} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-folder-plus" /> New Folder </button>
                 </div>
-                <div class="is-hidden" style={{ display: "flex", flexDirection: "column" }}>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-copy" /> Copy...</a>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-paste" /> Paste...</a>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-file-export" /> Move...</a>
-                    <a style={{ paddingBottom: "10px" }} href="#"><i class="fas fa-trash-alt" /> Delete...</a>
+                <div className="is-hidden" style={{ display: "flex", flexDirection: "column" }}>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-copy" /> Copy...</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-paste" /> Paste...</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-file-export" /> Move...</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted"  href="#"><i className="fas fa-trash-alt" /> Delete...</button>
                 </div>
             </div>
         )

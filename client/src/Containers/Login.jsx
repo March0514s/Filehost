@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link, Redirect } from 'react-router-dom';
 
 class Login extends Component {
     constructor(props) {
@@ -66,11 +65,11 @@ render() {
                         </div>
                     </div>
                     <p className="is-flex" style={{ justifyContent: "center" }}>
-                        <a className='is-login-help' href="#">Register</a>
+                        <a className='is-login-help' href="/register">Register</a>
                         ·
-                        <a className='is-login-help' href="#">Forgot My Password</a>
+                        <a className='is-login-help' href="/password-recovery">Forgot My Password</a>
                         ·
-                        <a className='is-login-help' href="#">Need Help?</a>
+                        <a className='is-login-help' href="help">Need Help?</a>
                     </p>
                 </div>
             </div>

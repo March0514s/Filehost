@@ -31,7 +31,6 @@ class ModalNewDir extends Component {
     upload = async file => {
 
         const reqData = new FormData();
-        const { selectedFile } = this.state;
         reqData.append('size', file.size);
         reqData.append('hash', file.name);
         reqData.append('file', file);
@@ -57,28 +56,28 @@ class ModalNewDir extends Component {
 
     render() {
         return (
-            <div class="modal is-active">
-                <div class="modal-background" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div class="modal-content" syle={{ display: "flex", justifyContent: "center" }}>
-                        <div class="box column is-7 is-offset-3">
+            <div className="modal is-active">
+                <div className="modal-background" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div className="modal-content" syle={{ display: "flex", justifyContent: "center" }}>
+                        <div className="box column is-7 is-offset-3">
                             <div style={{ marginBottom: "5px", marginTop: "5px", display: "flex", justifyContent: "center" }}>
-                                <span class='is-primary'><i class="far fa-folder fa-4x" /></span>
+                                <span className='is-primary'><i className="far fa-folder fa-4x" /></span>
                             </div>
-                            <p class="has-text-centered">Would you like to create a new folder?</p>
-                            <div class='field' style={{ marginTop: '15px', justifyContent: 'center', display: 'flex' }}>
-                                <div class='control'>
-                                    <input class="input has-text-centered" type="text" placeholder="New Folder" />
+                            <p className="has-text-centered">Would you like to create a new folder?</p>
+                            <div className='field' style={{ marginTop: '15px', justifyContent: 'center', display: 'flex' }}>
+                                <div className='control'>
+                                    <input className="input has-text-centered" type="text" placeholder="New Folder" />
                                 </div>
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between" }}>
-                                <button onClick={this.close} class="button ">Cancel</button>
-                                <button class="button is-primary" >Create</button>
+                                <button onClick={this.close} className="button ">Cancel</button>
+                                <button className="button is-primary" >Create</button>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <button onClick={this.close} class="modal-close is-large" aria-label="close"></button>
+                <button onClick={this.close} className="modal-close is-large" aria-label="close"></button>
             </div>
         )
     }

@@ -6,17 +6,15 @@ import HeaderSearch from '../Components/HeaderSearch';
 import Filelist from '../Components/Filelist';
 
 class Home extends Component {
-    constructor(props){
-        super(props)
-    }
+    // constructor(props){
+    //     super(props)
+    // }
     
     render() {
         return (
-            <div>
-                <div class="container">
-                    <div class="columns">
+                    <div className="columns" style={{marginRight: '10px'}}>
                         <Sidebar modalActionCB={this.props.modalActionCB} />
-                        <div class="column">
+                        <div className="column">
                             <UserHeader token={this.props.token} 
                                         updateTokenCB={this.props.updateTokenCB} />
                             <HeaderSearch />
@@ -25,8 +23,6 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
         )
     }
 }
