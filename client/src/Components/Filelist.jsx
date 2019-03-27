@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 
 class Filelist extends Component {
-    // constructor(props) {
-    //     super(props)
-        
-    // }
+    constructor(props) {
+        super(props)
+    }
+
 
     delete = () => {
         this.props.modalActionCB('delete');
     }
-    
+
+
 
     render() {
         return (
@@ -22,8 +23,16 @@ class Filelist extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td ><input type="checkbox" style={{ marginRight: "10px" }} /> <i className="far fa-folder fa-2x " style={{ marginRight: "5px" }} /> 28th Richmond</td>
+
+                    {this.props.files ? this.props.files.map(e => 
+                        <tr>
+                            <td ><input type="checkbox" style={{ marginRight: "10px" }} /> <i className={e.type === 'folder' ? "far fa-folder fa-2x" : "far fa-image fa-2x "} style={{ marginRight: "5px" }} />{e.name}</td>
+                            <td>--</td>
+                            <td></td>
+                        </tr>
+                    ) : 'null'}
+                    {/* <tr>
+                        <td ><input type="checkbox" style={{ marginRight: "10px" }} /> <i className="far fa-folder fa-2x " style={{ marginRight: "5px" }} />{this.props.files}</td>
                         <td>shared folder</td>
 
                         <td></td>
@@ -102,7 +111,7 @@ class Filelist extends Component {
                         <td ><input type="checkbox" style={{ marginRight: "10px" }} /> <i className="far fa-file fa-2x " style={{ marginRight: "5px" }} /> Secret Passwords.txt</td>
                         <td>file</td>
                         <td></td>
-                    </tr>
+                    </tr> */}
                 </tbody>
             </table>
         )

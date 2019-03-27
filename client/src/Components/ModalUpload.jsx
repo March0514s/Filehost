@@ -80,6 +80,9 @@ class ModalUpload extends Component {
                 `HTTP error: ${res.status} ${res.statusText}`,
             );
         }
+        else {
+            this.props.dirUpdate(true);
+        }
 
         return await res.json();
     }
