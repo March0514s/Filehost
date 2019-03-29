@@ -11,16 +11,6 @@ class File extends Component {
         }
     }
 
-    handleMouseOver = e => {    
-        document.getElementById(this.props.number).classList.add('is-selected');
-        document.getElementById(this.props.file._id).classList.remove('is-hidden')
-    }
-
-    handleMouseLeave = e => {    
-        document.getElementById(this.props.number).classList.remove('is-selected');
-        document.getElementById(this.props.file._id).classList.add('is-hidden') 
-    }
-
     iconSelect = e => {
         switch(e.type){
             case 'folder':
@@ -41,7 +31,7 @@ class File extends Component {
 
     render() {
         return (
-                <tr  id={this.props.number} onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
+                <tr className="explorerFileRow">
                     <td>
                         {/* Description */}
                         <input type="checkbox" style={{ marginRight: "10px" }} /> 
@@ -54,7 +44,7 @@ class File extends Component {
                     </td>
                     <td>
                         {/* Actions */}
-                        <div id={this.props.file._id} className="dropdown is-hoverable is-left is-hidden">
+                        <div className="dropdown is-hoverable is-left explorerMenu">
                                 <div className="dropdown-trigger ">
                                     <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
                                         <span className="has-text-primary"><i className="fas fa-ellipsis-h" /></span>

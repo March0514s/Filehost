@@ -36,3 +36,15 @@
   margin-right: 8px;
   color: black;
 }
+
+.explorerFileRow:hover {
+   background-color: #00d1b2 !important;
+}
+
+.explorerMenu{
+  display: none;
+}
+
+.explorerFileRow:hover .explorerMenu{
+  display: block;
+}
