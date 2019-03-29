@@ -17,42 +17,77 @@ class ModalNewDir extends Component {
 
     };
 
-    onFormSubmit = e => {
-        e.preventDefault();
-        if (this.state.newDirName) {
+    // onFormSubmit = async e => {
+    //     e.preventDefault();
+    //     if (this.state.selectedFile) {
 
 
-            const upload = this.upload(this.state.selectedFile);
-            console.log('Upload data:', upload);
-            console.log(this.props.token);
-        }
-    };
+    //         const upload = this.upload(this.state.selectedFile);
+    //         console.log('Upload data:', await upload);
+    //         const resData = await upload;
+            
+            
+    //         const fileEntry = this.createFile({
+    //             parent: 'root',
+    //             type: 'file',
+    //             name: resData.hash,
+    //             uploadId: resData._id,
+    //             accessPolicy: 'auth',
+    //         });
 
-    upload = async file => {
+    //         console.log('File entry:', await fileEntry)
+    //     }
+    // };
 
-        const reqData = new FormData();
-        reqData.append('size', file.size);
-        reqData.append('hash', file.name);
-        reqData.append('file', file);
+    // upload = async file => {
 
-
-        const res = await fetch('/api/uploads', {
-            method: 'POST',
-            headers: { authorization: this.props.token },
-            body: reqData
-        });
-
-        if (!res.ok) {
-            throw new Error(
-                `HTTP error: ${res.status} ${res.statusText}`,
-            );
-        }
-
-        this.props.modalActionCB(null); //Replace by status bar and success notice.
-        return await res.json();
+    //     const reqData = new FormData();
+    //     reqData.append('size', file.size);
+    //     reqData.append('hash', file.name);
+    //     reqData.append('file', file);
 
 
-    }
+    //     const res = await fetch('/api/uploads', {
+    //         method: 'POST',
+    //         headers: { authorization: this.props.token },
+    //         body: reqData
+    //     });
+
+    //     console.log(res)
+
+    //     if (!res.ok) {
+    //         throw new Error(
+    //             `HTTP error: ${res.status} ${res.statusText}`,
+    //         );
+    //     }
+
+    //     this.props.modalActionCB(null); //Replace by status bar and success notice.
+    //     return await res.json();
+        
+    // }
+
+    // createFolder = async fileData => {
+    //     const res = await fetch('/api/dirEntries', {
+    //         method: 'POST',
+    //         headers: { authorization: this.props.token,
+    //                    'content-type': 'application/json' }, 
+    //         body: JSON.stringify(fileData)
+    //     });
+
+    //     if (!res.ok){
+    //         throw new Error(
+    //             `HTTP error: ${res.status} ${res.statusText}`,
+    //         );
+    //     }
+    //     else {
+    //         this.props.dirUpdate(true);
+    //     }
+
+    //     return await res.json();
+    // }
+
+
+    // }
 
     render() {
         return (

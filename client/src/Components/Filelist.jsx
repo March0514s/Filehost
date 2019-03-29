@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
+import File from './File';
+
+
 class Filelist extends Component {
     constructor(props) {
         super(props)
     }
 
-
     delete = () => {
         this.props.modalActionCB('delete');
     }
-
-
 
     render() {
         return (
@@ -24,15 +24,12 @@ class Filelist extends Component {
                 </thead>
                 <tbody>
 
-                    {this.props.files ? this.props.files.map(e => 
-                        <tr>
-                            <td ><input type="checkbox" style={{ marginRight: "10px" }} /> <i className={e.type === 'folder' ? "far fa-folder fa-2x" : "far fa-image fa-2x "} style={{ marginRight: "5px" }} />{e.name}</td>
-                            <td>--</td>
-                            <td></td>
-                        </tr>
-                    ) : 'null'}
+                    {this.props.files ? this.props.files.map(e =>
+                        <File file={e} key={this.props.files.indexOf(e)} number={this.props.files.indexOf(e)}/>
+                        
+                    ) : <tr ><td style={{justifyContent: 'center'}} colSpan='9999' className='subtitle is-flex'>Loading...</td></tr>}
                     {/* <tr>
-                        <td ><input type="checkbox" style={{ marginRight: "10px" }} /> <i className="far fa-folder fa-2x " style={{ marginRight: "5px" }} />{this.props.files}</td>
+                        <td ><input type="checkbox" style={{ marginRight: "10px" }} /> <i className="far fa-folder fa-2x" style={{ marginRight: "5px" }} />{this.props.files}</td>
                         <td>shared folder</td>
 
                         <td></td>
