@@ -29,6 +29,39 @@ class File extends Component {
     
     }
 
+    //Expecting server solution to use an anchor instead. 
+     downloadFile = async () => {
+        const res = await fetch(`/files/${this.props.file._id}/${this.props.file.name}`, {
+            method: 'GET',
+            headers: {authorization: this.props.token}
+        });
+
+        if (!res.ok) {
+            throw new Error(
+                `HTTP Error: ${res.status} ${res.statusText}`
+            )
+        };
+
+        res.blob().then(blob => {
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `${this.props.file.name}`;
+            a.click();
+        });
+
+    }
+
+    deletion = () => {
+        this.props.fileSelection(this.props.file);
+        this.props.modalActionCB('delete');
+    }
+
+    rename = () => {
+        this.props.fileSelection(this.props.file);
+        this.props.modalActionCB('rename');
+    }
+
     render() {
         return (
                 <tr className="explorerFileRow">
@@ -55,7 +88,7 @@ class File extends Component {
                                         <button className="button dropdown-item is-white is-primary is-inverted">
                                             <i className="fas fa-link" /> Share
                                     </button>
-                                        <button className="button dropdown-item is-white is-primary is-inverted">
+                                        <button onClick={this.downloadFile} className="button dropdown-item is-white is-primary is-inverted">
                                             <i className="fas fa-download" /> Download
                                     </button>
                                         <button className="button dropdown-item is-white is-primary is-inverted">
@@ -64,10 +97,10 @@ class File extends Component {
                                         <button className="button dropdown-item is-white is-primary is-inverted">
                                             <i className="fas fa-file-export" /> Move
                                     </button>
-                                        <button className="button dropdown-item is-white is-primary is-inverted">
+                                        <button onClick={this.rename} className="button dropdown-item is-white is-primary is-inverted">
                                             <i className="fas fa-edit" /> Rename
                                     </button>
-                                        <button href="#" className="button dropdown-item is-white is-primary is-inverted">
+                                        <button onClick={this.deletion} href="#" className="button dropdown-item is-white is-primary is-inverted">
                                             <i className="fas fa-trash-alt" /> Delete
                                     </button>
                                     </div>

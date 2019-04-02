@@ -7,6 +7,7 @@ import Filelist from '../Components/Filelist';
 import ModalUpload from '../Components/ModalUpload';
 import ModalDelete from '../Components/ModalDelete';
 import ModalNewDir from '../Components/ModalNewDir';
+import ModalRename from '../Components/ModalRename';
 
 class Explorer extends Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class Explorer extends Component {
 
         this.state = {
             modalAction: null,
-            files: null
+            files: null,
+            selectedFile: null,
         }
     }
 
@@ -33,6 +35,8 @@ class Explorer extends Component {
 
     modalAction = action => this.setState({ modalAction: action });
     
+    fileSelection = file => this.setState({ selectedFile: file });
+    
     dirUpdate = async status => {
         if (status) this.setState({files: await this.loadList()});
     }
@@ -46,12 +50,27 @@ class Explorer extends Component {
                         updateTokenCB={this.props.updateTokenCB} />
                     <HeaderSearch />
                     <div>
-                        <Filelist modalActionCB={this.modalActionCB} token={this.props.token} files={this.state.files}/>
+                        <Filelist modalActionCB={this.modalAction} fileSelection={this.fileSelection} token={this.props.token} files={this.state.files}/>
                     </div>
                 </div>
-                {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction} token={this.props.token} dirUpdate={this.dirUpdate} /> : ''}
-                {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction} token={this.props.token} dirUpdate={this.dirUpdate} /> : ''}
-                {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} token={this.props.token} dirUpdate={this.dirUpdate} /> : ''}
+                {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction} 
+                                                                    token={this.props.token} 
+                                                                    dirUpdate={this.dirUpdate} 
+                                                        /> : ''}
+                {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction} 
+                                                                    token={this.props.token} 
+                                                                    dirUpdate={this.dirUpdate} 
+                                                        /> : ''}
+                {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} 
+                                                                    token={this.props.token} 
+                                                                    dirUpdate={this.dirUpdate}
+                                                                    selectedFile={this.state.selectedFile} 
+                                                        /> : ''}
+                {this.state.modalAction === 'rename' ? <ModalRename modalActionCB={this.modalAction} 
+                                                                    token={this.props.token} 
+                                                                    dirUpdate={this.dirUpdate}
+                                                                    selectedFile={this.state.selectedFile} 
+                                                        /> : ''}
             </div>
         )
     }

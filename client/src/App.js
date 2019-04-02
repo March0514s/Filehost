@@ -19,9 +19,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="is-paddingless">
+      <div className="is-paddingless" >
         <BrowserRouter >
-          <div className="is-paddingless">
+          <div className="is-paddingless" >
             <Route exact path='/' render={(props) =>
               this.state.token ? <Explorer {...props}
                 token={this.state.token}

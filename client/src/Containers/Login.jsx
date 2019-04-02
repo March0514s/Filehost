@@ -9,7 +9,6 @@ class Login extends Component {
 
     }
 
-//Requisição de JWT -TODO: conferir se recebe o token
  onSubmit = async e => {
      e.preventDefault();
     

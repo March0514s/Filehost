@@ -8,13 +8,9 @@ class Filelist extends Component {
     //     super(props)
     // }
 
-    delete = () => {
-        this.props.modalActionCB('delete');
-    }
-
     render() {
         return (
-            <table className="table is-fullwidth is-striped fl-table">
+            <table style={{overflowY:'scroll'}}className="table is-fullwidth is-striped fl-table">
                 <thead className="is-fullwidth">
                     <tr>
                         <td><input type="checkbox" style={{ marginRight: "10px" }} /> Description<i className="fa fa-arrow-up" /> </td>
@@ -25,10 +21,10 @@ class Filelist extends Component {
                 <tbody>
 
                     {this.props.files ? this.props.files.map(e =>
-                        <File file={e} key={this.props.files.indexOf(e)} number={this.props.files.indexOf(e)}/>
+                        <File file={e} key={e._id} modalActionCB={this.props.modalActionCB} fileSelection={this.props.fileSelection} number={this.props.files.indexOf(e)} token={this.props.token}/>
                         
                     ) :  <tr>
-                        <td colspan="3" class='subtitle has-text-centered' style={{justifyContent: 'center'}}>
+                        <td colSpan="3" className='subtitle has-text-centered' style={{justifyContent: 'center'}}>
                             Loading...
                         </td>
                     </tr>}
