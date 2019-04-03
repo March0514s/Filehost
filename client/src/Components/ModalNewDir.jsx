@@ -1,93 +1,55 @@
 import React, { Component } from 'react';
+import { root } from 'postcss';
 class ModalNewDir extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            newDirName: null
+            value: 'New Folder'
         }
     }
 
     close = () => {
         this.props.modalActionCB(null);
     }
-
-    onNameChange = e => {
-        this.setState({ newDirName: e.target.textContent });
+    
+    handleSubmit = e => {
+        e.preventDefault();
+       this.createFolder(this.state.value);
+        this.close();
 
     };
 
-    // onFormSubmit = async e => {
-    //     e.preventDefault();
-    //     if (this.state.selectedFile) {
+    handleChange = e => {
+        this.setState({value: e.target.value});
 
+    };
 
-    //         const upload = this.upload(this.state.selectedFile);
-    //         console.log('Upload data:', await upload);
-    //         const resData = await upload;
-            
-            
-    //         const fileEntry = this.createFile({
-    //             parent: 'root',
-    //             type: 'file',
-    //             name: resData.hash,
-    //             uploadId: resData._id,
-    //             accessPolicy: 'auth',
-    //         });
+    createFolder = async folder => {
+        const res = await fetch('/api/dirEntries', {
+            method: 'POST',
+            headers:{
+                authorization: this.props.token,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                parent: 'root',
+                type: 'dir',
+                name: folder,
+                accessPolicy: 'auth'
+            })
+        });
 
-    //         console.log('File entry:', await fileEntry)
-    //     }
-    // };
+        if (!res.ok){
+            throw new Error(
+                `HTTP Error ${res.status} ${res.statusText}`
+            )
+        }
+        else{
+            this.props.dirUpdate(true);
+        }
+    }
 
-    // upload = async file => {
-
-    //     const reqData = new FormData();
-    //     reqData.append('size', file.size);
-    //     reqData.append('hash', file.name);
-    //     reqData.append('file', file);
-
-
-    //     const res = await fetch('/api/uploads', {
-    //         method: 'POST',
-    //         headers: { authorization: this.props.token },
-    //         body: reqData
-    //     });
-
-    //     console.log(res)
-
-    //     if (!res.ok) {
-    //         throw new Error(
-    //             `HTTP error: ${res.status} ${res.statusText}`,
-    //         );
-    //     }
-
-    //     this.props.modalActionCB(null); //Replace by status bar and success notice.
-    //     return await res.json();
-        
-    // }
-
-    // createFolder = async fileData => {
-    //     const res = await fetch('/api/dirEntries', {
-    //         method: 'POST',
-    //         headers: { authorization: this.props.token,
-    //                    'content-type': 'application/json' }, 
-    //         body: JSON.stringify(fileData)
-    //     });
-
-    //     if (!res.ok){
-    //         throw new Error(
-    //             `HTTP error: ${res.status} ${res.statusText}`,
-    //         );
-    //     }
-    //     else {
-    //         this.props.dirUpdate(true);
-    //     }
-
-    //     return await res.json();
-    // }
-
-
-    // }
 
     render() {
         return (
@@ -99,15 +61,17 @@ class ModalNewDir extends Component {
                                 <span className='is-primary'><i className="far fa-folder fa-4x" /></span>
                             </div>
                             <p className="has-text-centered">Would you like to create a new folder?</p>
-                            <div className='field' style={{ marginTop: '15px', justifyContent: 'center', display: 'flex' }}>
-                                <div className='control'>
-                                    <input className="input has-text-centered" type="text" placeholder="New Folder" />
+                            <form onSubmit={this.handleSubmit}>
+                                <div className='field' style={{ marginTop: '15px', justifyContent: 'center', display: 'flex' }}>
+                                    <div className='control'>
+                                        <input className="input has-text-centered" type="text" value={this.state.value} onChange={this.handleChange}  placeholder={`${this.state.value}`} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div style={{display: "flex", justifyContent: "space-between" }}>
-                                <button onClick={this.close} className="button ">Cancel</button>
-                                <button className="button is-primary" >Create</button>
-                            </div>
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <button onClick={this.close} className="button ">Cancel</button>
+                                    <button className="button is-primary" >Create</button>
+                                </div>
+                            </form>
                         </div>
 
                     </div>

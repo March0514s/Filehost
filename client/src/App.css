@@ -48,3 +48,11 @@
 .explorerFileRow:hover .explorerMenu{
   display: block;
 }
+
+.dir-element{
+  color: black;
+}
+
+.dir-element:hover {
+  color: white !important ;
+}
