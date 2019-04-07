@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { root } from 'postcss';
 class ModalNewDir extends Component {
     constructor(props) {
         super(props)
@@ -33,7 +32,7 @@ class ModalNewDir extends Component {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                parent: 'root',
+                parent: this.props.dir,
                 type: 'dir',
                 name: folder,
                 accessPolicy: 'auth'

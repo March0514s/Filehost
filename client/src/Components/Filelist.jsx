@@ -21,7 +21,14 @@ class Filelist extends Component {
                 <tbody>
 
                     {this.props.files ? this.props.files.map(e =>
-                        <File file={e} key={e._id} modalActionCB={this.props.modalActionCB} fileSelection={this.props.fileSelection} number={this.props.files.indexOf(e)} token={this.props.token}/>
+                        <File file={e} key={e._id} 
+                                       modalActionCB={this.props.modalActionCB} 
+                                       fileSelection={this.props.fileSelection} 
+                                       number={this.props.files.indexOf(e)} 
+                                       token={this.props.token} 
+                                       dir={this.props.dir}
+                                       dirUpdate={this.props.dirUpdate}
+                        />
                         
                     ) :  <tr>
                         <td colSpan="3" className='subtitle has-text-centered' style={{justifyContent: 'center'}}>

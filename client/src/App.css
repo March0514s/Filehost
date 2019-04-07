@@ -39,6 +39,7 @@
 
 .explorerFileRow:hover {
    background-color: #00d1b2 !important;
+   
 }
 
 .explorerMenu{
@@ -54,5 +55,6 @@
 }
 
 .dir-element:hover {
-  color: white !important ;
+  color: darkolivegreen !important ;
+  cursor: pointer;
 }

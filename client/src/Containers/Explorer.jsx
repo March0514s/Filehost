@@ -17,6 +17,7 @@ class Explorer extends Component {
             modalAction: null,
             files: null,
             selectedFile: null,
+            dir: 'root'
         }
     }
 
@@ -25,7 +26,7 @@ class Explorer extends Component {
     }
 
     loadList = async () => {
-        const res = await fetch('/api/dirEntries?parent=root', {
+        const res = await fetch(`/api/dirEntries?parent=${this.state.dir}`, {
             method: 'GET',
             headers: { authorization: this.props.token }
         })
@@ -40,6 +41,11 @@ class Explorer extends Component {
     dirUpdate = async status => {
         if (status) this.setState({files: await this.loadList()});
     }
+
+    changeDir = async folder => {
+        this.setState({dir: `${folder}`});
+        this.loadList();
+    }
     
     render() {
         return (
@@ -47,10 +53,18 @@ class Explorer extends Component {
                 <Sidebar modalActionCB={this.modalAction} />
                 <div className="column">
                     <UserHeader token={this.props.token}
-                        updateTokenCB={this.props.updateTokenCB} />
-                    <HeaderSearch />
+                                updateTokenCB={this.props.updateTokenCB}
+                                 />
+                    <HeaderSearch dir={this.state.dir}
+                                  changeDir={this.changeDir}/>
                     <div>
-                        <Filelist modalActionCB={this.modalAction} fileSelection={this.fileSelection} token={this.props.token} files={this.state.files}/>
+                        <Filelist modalActionCB={this.modalAction} 
+                                  fileSelection={this.fileSelection} 
+                                  token={this.props.token} 
+                                  files={this.state.files}
+                                  dir={this.changeDir}
+                                  dirUpdate={this.dirUpdate}
+                                  />
                     </div>
                 </div>
                 {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction} 
@@ -59,7 +73,8 @@ class Explorer extends Component {
                                                         /> : ''}
                 {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction} 
                                                                     token={this.props.token} 
-                                                                    dirUpdate={this.dirUpdate} 
+                                                                    dirUpdate={this.dirUpdate}
+                                                                    dir={this.state.dir} 
                                                         /> : ''}
                 {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} 
                                                                     token={this.props.token} 

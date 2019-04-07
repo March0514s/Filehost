@@ -62,8 +62,10 @@ class File extends Component {
         this.props.modalActionCB('rename');
     }
 
-    test = () => {
-        console.log('foo')
+    openFolder = () => {
+        this.props.dir(this.props.file.name);
+        this.props.dirUpdate(true);
+        
     }
 
     render() {
@@ -73,7 +75,7 @@ class File extends Component {
                     <td>
                         {/* Description */}
                         <input type="checkbox" style={{ marginRight: "10px" }} />
-                        <span onClick={this.test} className='dir-element'>
+                        <span onClick={this.openFolder} className='dir-element'>
                             <i className={this.iconSelect(this.props.file)} style={{ marginRight: "10px" }} />
                             {this.props.file.name}
                         </span>
