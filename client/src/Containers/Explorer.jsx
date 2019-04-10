@@ -17,7 +17,10 @@ class Explorer extends Component {
             modalAction: null,
             files: null,
             selectedFile: null,
-            dir: 'root'
+            curDirID: 'root',
+            curDirName: '',
+            prevDirSruct: [[0, 'root'], [1, 'hiragana-table'], [2, 'New Folder']],
+            
         }
     }
 
@@ -26,7 +29,7 @@ class Explorer extends Component {
     }
 
     loadList = async () => {
-        const res = await fetch(`/api/dirEntries?parent=${this.state.dir}`, {
+        const res = await fetch(`/api/dirEntries?parent=${this.state.curDirID}`, {
             method: 'GET',
             headers: { authorization: this.props.token }
         })
@@ -42,9 +45,9 @@ class Explorer extends Component {
         if (status) this.setState({files: await this.loadList()});
     }
 
-    changeDir = async folder => {
-        this.setState({dir: `${folder}`});
-        this.loadList();
+    changeDir = (id, name) => {
+        // this.setState({prevDirStruct: this.state.prevDirStruct.concat([...id, name])});
+        this.setState({curDirID: id, curDirName: name}, () => this.dirUpdate(true));
     }
     
     render() {
@@ -55,8 +58,10 @@ class Explorer extends Component {
                     <UserHeader token={this.props.token}
                                 updateTokenCB={this.props.updateTokenCB}
                                  />
-                    <HeaderSearch dir={this.state.dir}
-                                  changeDir={this.changeDir}/>
+                    <HeaderSearch dir={this.state.curDirName}
+                                  changeDir={this.changeDir}
+                                  prevDirStruct={this.state.prevDirStruct} //Quando pega do state dá erro, porque dá erro? 
+                                  />
                     <div>
                         <Filelist modalActionCB={this.modalAction} 
                                   fileSelection={this.fileSelection} 
@@ -74,7 +79,7 @@ class Explorer extends Component {
                 {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction} 
                                                                     token={this.props.token} 
                                                                     dirUpdate={this.dirUpdate}
-                                                                    dir={this.state.dir} 
+                                                                    dir={this.state.curDirID} 
                                                         /> : ''}
                 {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} 
                                                                     token={this.props.token} 
