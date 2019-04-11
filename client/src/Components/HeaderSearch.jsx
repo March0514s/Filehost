@@ -30,7 +30,7 @@ class HeaderSearch extends Component {
                                     </div>
                                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                         {this.props.prevDirStruct.map(dir => {return <div class="dropdown-content">
-                                            <span class="dropdown-item dir-element" onClick={() => this.props.changeDir(dir[0])}>
+                                            <span class="dropdown-item dir-element" key={dir[0]} onClick={() => this.props.changeDir(dir[0])}>
                                                 <i style={{marginRight: "2px"}}className="far fa-folder"></i>
                                                 {dir[1]}
                                             </span>

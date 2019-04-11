@@ -19,7 +19,7 @@ class Explorer extends Component {
             selectedFile: null,
             curDirID: 'root',
             curDirName: '',
-            prevDirSruct: [[0, 'root'], [1, 'hiragana-table'], [2, 'New Folder']],
+            prevDirStruct: [],
             
         }
     }
@@ -33,7 +33,7 @@ class Explorer extends Component {
             method: 'GET',
             headers: { authorization: this.props.token }
         })
-        this.state.dirChanges = false;
+        this.setState({dirChanges : false});
         return await res.json();
     };
 
@@ -46,7 +46,18 @@ class Explorer extends Component {
     }
 
     changeDir = (id, name) => {
-        // this.setState({prevDirStruct: this.state.prevDirStruct.concat([...id, name])});
+        this.setState((prevState) => {
+            if(this.state.curDirName ){
+            return {
+                prevDirStruct: [...prevState.prevDirStruct, [this.state.curDirID, this.state.curDirName]]
+            }
+        }
+        else{
+            return {
+                prevDirStruct: [...prevState.prevDirStruct]
+            }
+        }
+        })
         this.setState({curDirID: id, curDirName: name}, () => this.dirUpdate(true));
     }
     
@@ -60,7 +71,7 @@ class Explorer extends Component {
                                  />
                     <HeaderSearch dir={this.state.curDirName}
                                   changeDir={this.changeDir}
-                                  prevDirStruct={this.state.prevDirStruct} //Quando pega do state dá erro, porque dá erro? 
+                                  prevDirStruct={this.state.prevDirStruct} 
                                   />
                     <div>
                         <Filelist modalActionCB={this.modalAction} 
