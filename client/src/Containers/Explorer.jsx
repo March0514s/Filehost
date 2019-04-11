@@ -17,8 +17,7 @@ class Explorer extends Component {
             modalAction: null,
             files: null,
             selectedFile: null,
-            curDirID: 'root',
-            curDirName: '',
+            curDir: {_id: 'root'},
             prevDirStruct: [],
             
         }
@@ -29,7 +28,7 @@ class Explorer extends Component {
     }
 
     loadList = async () => {
-        const res = await fetch(`/api/dirEntries?parent=${this.state.curDirID}`, {
+        const res = await fetch(`/api/dirEntries?parent=${this.state.curDir._id}`, {
             method: 'GET',
             headers: { authorization: this.props.token }
         })
@@ -45,20 +44,16 @@ class Explorer extends Component {
         if (status) this.setState({files: await this.loadList()});
     }
 
-    changeDir = (id, name) => {
+    changeDir = (folder) => {
         this.setState((prevState) => {
-            if(this.state.curDirName ){
             return {
-                prevDirStruct: [...prevState.prevDirStruct, [this.state.curDirID, this.state.curDirName]]
+                prevDirStruct: [prevState.prevDirStruct, this.state.curDir]
             }
-        }
-        else{
-            return {
-                prevDirStruct: [...prevState.prevDirStruct]
-            }
-        }
+
+            
         })
-        this.setState({curDirID: id, curDirName: name}, () => this.dirUpdate(true));
+        
+        this.setState({curDir: folder}, () => this.dirUpdate(true));
     }
     
     render() {
@@ -69,7 +64,7 @@ class Explorer extends Component {
                     <UserHeader token={this.props.token}
                                 updateTokenCB={this.props.updateTokenCB}
                                  />
-                    <HeaderSearch dir={this.state.curDirName}
+                    <HeaderSearch dir={this.state.curDir}
                                   changeDir={this.changeDir}
                                   prevDirStruct={this.state.prevDirStruct} 
                                   />
@@ -90,7 +85,7 @@ class Explorer extends Component {
                 {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction} 
                                                                     token={this.props.token} 
                                                                     dirUpdate={this.dirUpdate}
-                                                                    dir={this.state.curDirID} 
+                                                                    dir={this.state.curDir} 
                                                         /> : ''}
                 {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} 
                                                                     token={this.props.token} 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { doesNotReject } from 'assert';
 
 class HeaderSearch extends Component {
     // constructor(props){
@@ -10,7 +11,7 @@ class HeaderSearch extends Component {
             <div className="columns">
                 <div className="column">
                     {
-                        !this.props.dir ?
+                        this.props.dir._id === 'root'?
                             <h1 className="title">
                                 Filehost
                             </h1>
@@ -18,7 +19,7 @@ class HeaderSearch extends Component {
 
                             <div className='is-flex' style={{ flexDirection: "colum" }}>
                                     <div className="dropdown is-hoverable   ">
-                                     <div class="dropdown trigger">
+                                     <div className="dropdown trigger">
                                         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
                                             <span style={{ marginLeft: '2px' }} className="icon">
                                                 <i className="fas fa-folder fa-2x" aria-hidden="true" />
@@ -28,20 +29,22 @@ class HeaderSearch extends Component {
                                             </span>
                                         </button>
                                     </div>
-                                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                                        {this.props.prevDirStruct.map(dir => {return <div class="dropdown-content">
-                                            <span class="dropdown-item dir-element" key={dir[0]} onClick={() => this.props.changeDir(dir[0])}>
+                                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                                        {this.props.prevDirStruct
+                                            .filter(dir => dir.name)
+                                            .map(dir => {return <div class="dropdown-content">
+                                            <span class="dropdown-item dir-element" key={dir._id} onClick={() => this.props.changeDir(dir)}>
                                                 <i style={{marginRight: "2px"}}className="far fa-folder"></i>
-                                                {dir[1]}
+                                                {dir.name}
                                             </span>
                     </div>})}
                                     </div>
                                 </div>
                                 <div className="title">
-                                    <span className='dir-element' onClick={() => this.props.changeDir('root')}>
-                                        Filehost
+                                    <span className='dir-element' onClick={() => this.props.changeDir({_id:'root'})}>
+                                        {this.props.dir.parent === 'root' ? 'Filehost' : this.props.prevDirStruct.filter(dir => dir._id === this.props.dir.parent)[0].name}
                                     </span>
-                                    /{this.props.dir}
+                                    /{this.props.dir.name}
                                 </div>
                             </div>
 

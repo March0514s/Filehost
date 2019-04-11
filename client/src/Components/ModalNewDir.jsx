@@ -32,7 +32,7 @@ class ModalNewDir extends Component {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                parent: this.props.dir,
+                parent: this.props.dir._id,
                 type: 'dir',
                 name: folder,
                 accessPolicy: 'auth'
