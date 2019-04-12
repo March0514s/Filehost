@@ -17,7 +17,7 @@ class Explorer extends Component {
             modalAction: null,
             files: null,
             selectedFile: null,
-            curDir: {_id: 'root'},
+            curDir: {name:'Filehost', _id: 'root'},
             prevDirStruct: [],
             
         }
@@ -47,7 +47,7 @@ class Explorer extends Component {
     changeDir = (folder) => {
         this.setState((prevState) => {
             return {
-                prevDirStruct: [prevState.prevDirStruct, this.state.curDir]
+                prevDirStruct: [...prevState.prevDirStruct, this.state.curDir]
             }
 
             

@@ -31,6 +31,7 @@ class HeaderSearch extends Component {
                                     </div>
                                     <div className="dropdown-menu" id="dropdown-menu" role="menu">
                                         {this.props.prevDirStruct
+                                        .slice(0,this.props.prevDirStruct.findIndex(k => k._id === this.props.dir.parent))
                                             .filter(dir => dir.name)
                                             .map(dir => {return <div class="dropdown-content">
                                             <span class="dropdown-item dir-element" key={dir._id} onClick={() => this.props.changeDir(dir)}>
@@ -41,8 +42,11 @@ class HeaderSearch extends Component {
                                     </div>
                                 </div>
                                 <div className="title">
-                                    <span className='dir-element' onClick={() => this.props.changeDir({_id:'root'})}>
-                                        {this.props.dir.parent === 'root' ? 'Filehost' : this.props.prevDirStruct.filter(dir => dir._id === this.props.dir.parent)[0].name}
+                                    <span className='dir-element' onClick={ () => this.props.changeDir(this.props.prevDirStruct.filter(dir => dir._id === this.props.dir.parent)[0])}>
+                                    {!this.props.prevDirStruct.filter(dir => dir._id === this.props.dir.parent)[0].name ?
+                                     'Filehost' : 
+                                     this.props.prevDirStruct.filter(dir => dir._id === this.props.dir.parent)[0].name
+                                     }
                                     </span>
                                     /{this.props.dir.name}
                                 </div>
