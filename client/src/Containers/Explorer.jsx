@@ -17,14 +17,15 @@ class Explorer extends Component {
             modalAction: null,
             files: null,
             selectedFile: null,
-            curDir: {name:'Filehost', _id: 'root'},
+            curDir: { name: 'Filehost', _id: 'root' },
             prevDirStruct: [],
-            
+            selectedFiles: []
+
         }
     }
 
-    async componentDidMount(){
-        this.setState({files: await this.loadList()});
+    async componentDidMount() {
+        this.setState({ files: await this.loadList() });
     }
 
     loadList = async () => {
@@ -32,71 +33,90 @@ class Explorer extends Component {
             method: 'GET',
             headers: { authorization: this.props.token }
         })
-        this.setState({dirChanges : false});
+        this.setState({ dirChanges: false });
         return await res.json();
     };
 
     modalAction = action => this.setState({ modalAction: action });
-    
+
     fileSelection = file => this.setState({ selectedFile: file });
-    
+
     dirUpdate = async status => {
-        if (status) this.setState({files: await this.loadList()});
+        if (status) this.setState({ files: await this.loadList() });
     }
 
     changeDir = (folder) => {
-        this.setState((prevState) => {
+        this.setState(prevState => {
             return {
                 prevDirStruct: [...prevState.prevDirStruct, this.state.curDir]
             }
 
-            
+
         })
-        
-        this.setState({curDir: folder}, () => this.dirUpdate(true));
+
+        this.setState({ curDir: folder }, () => this.dirUpdate(true));
     }
-    
+
+    onSelectChange = chosenFile => {
+        if (!this.state.selectedFiles.includes(chosenFile)) {
+            this.setState(prevState => {
+                return {
+                    selectedFiles: [prevState.selectedFiles.push(chosenFile)]
+                }
+            })
+        }
+        else {
+            this.setState(prevState => {
+                return {
+                    selectedFiles: [prevState.selectedFiles.pop(chosenFile)]
+                }
+            })
+        }
+    }
+
     render() {
         return (
             <div className="columns" style={{ marginRight: '10px' }}>
                 <Sidebar modalActionCB={this.modalAction} />
                 <div className="column">
                     <UserHeader token={this.props.token}
-                                updateTokenCB={this.props.updateTokenCB}
-                                 />
+                        updateTokenCB={this.props.updateTokenCB}
+                    />
                     <HeaderSearch dir={this.state.curDir}
-                                  changeDir={this.changeDir}
-                                  prevDirStruct={this.state.prevDirStruct} 
-                                  />
+                        changeDir={this.changeDir}
+                        prevDirStruct={this.state.prevDirStruct}
+                    />
                     <div>
-                        <Filelist modalActionCB={this.modalAction} 
-                                  fileSelection={this.fileSelection} 
-                                  token={this.props.token} 
-                                  files={this.state.files}
-                                  dir={this.changeDir}
-                                  dirUpdate={this.dirUpdate}
-                                  />
+                        <Filelist modalActionCB={this.modalAction}
+                            fileSelection={this.fileSelection}
+                            token={this.props.token}
+                            files={this.state.files}
+                            dir={this.changeDir}
+                            dirUpdate={this.dirUpdate}
+                            selectedFiles={this.state.selectedFiles}
+                            onSelectChange={this.onSelectChange}
+                        />
                     </div>
                 </div>
-                {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction} 
-                                                                    token={this.props.token} 
-                                                                    dirUpdate={this.dirUpdate} 
-                                                        /> : ''}
-                {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction} 
-                                                                    token={this.props.token} 
-                                                                    dirUpdate={this.dirUpdate}
-                                                                    dir={this.state.curDir} 
-                                                        /> : ''}
-                {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction} 
-                                                                    token={this.props.token} 
-                                                                    dirUpdate={this.dirUpdate}
-                                                                    selectedFile={this.state.selectedFile} 
-                                                        /> : ''}
-                {this.state.modalAction === 'rename' ? <ModalRename modalActionCB={this.modalAction} 
-                                                                    token={this.props.token} 
-                                                                    dirUpdate={this.dirUpdate}
-                                                                    selectedFile={this.state.selectedFile} 
-                                                        /> : ''}
+                {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction}
+                    token={this.props.token}
+                    dirUpdate={this.dirUpdate}
+                /> : ''}
+                {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction}
+                    token={this.props.token}
+                    dirUpdate={this.dirUpdate}
+                    dir={this.state.curDir}
+                /> : ''}
+                {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction}
+                    token={this.props.token}
+                    dirUpdate={this.dirUpdate}
+                    selectedFile={this.state.selectedFile}
+                /> : ''}
+                {this.state.modalAction === 'rename' ? <ModalRename modalActionCB={this.modalAction}
+                    token={this.props.token}
+                    dirUpdate={this.dirUpdate}
+                    selectedFile={this.state.selectedFile}
+                /> : ''}
             </div>
         )
     }

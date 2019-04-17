@@ -3,12 +3,6 @@ import React, { Component } from 'react';
 class File extends Component {
     constructor(props) {
         super(props)
-
-        this.state = {
-            icons: {
-
-            }
-        }
     }
 
     iconSelect = e => {
@@ -74,7 +68,11 @@ class File extends Component {
                 {this.props.file.type === 'dir' ?
                     <td>
                         {/* Description */}
-                        <input type="checkbox" style={{ marginRight: "10px" }} />
+                        <input type="checkbox" 
+                               checked={() => this.props.selectedFiles.includes(this.props.file)} 
+                               onChange={() => this.props.onSelectChange(this.props.file)}                               
+                               style={{ marginRight: "10px" }} 
+                        />
                         <span onClick={this.openFolder} className='dir-element'>
                             <i className={this.iconSelect(this.props.file)} style={{ marginRight: "10px" }} />
                             {this.props.file.name}
@@ -85,7 +83,11 @@ class File extends Component {
 
                     <td>
                         {/* Description */}
-                        <input type="checkbox" style={{ marginRight: "10px" }} />
+                        <input type="checkbox" 
+                               checked={() => this.props.selectedFiles.includes(this.props.file)} 
+                               onChange={() => this.props.onSelectChange(this.props.file)}                               
+                               style={{ marginRight: "10px" }} 
+                        />
                         <i className={this.iconSelect(this.props.file)} style={{ marginRight: "10px" }} />
                         {this.props.file.name}
                     </td>}

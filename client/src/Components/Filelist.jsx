@@ -4,9 +4,9 @@ import File from './File';
 import spinner from '../icons/spinner.svg'
 
 class Filelist extends Component {
-    // constructor(props) {
-    //     super(props)
-    // }
+    constructor(props) {
+        super(props)
+    }
 
     render() {
         return (
@@ -28,6 +28,10 @@ class Filelist extends Component {
                                        token={this.props.token} 
                                        dir={this.props.dir}
                                        dirUpdate={this.props.dirUpdate}
+                                       onSelectChange={this.props.onSelectChange}
+                                       selectedFiles={this.props.selectedFiles}
+                                    
+                                       
                         />
                         
                     ) :  <tr>
