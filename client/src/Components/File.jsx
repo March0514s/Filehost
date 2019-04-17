@@ -69,7 +69,7 @@ class File extends Component {
                     <td>
                         {/* Description */}
                         <input type="checkbox" 
-                               checked={() => this.props.selectedFiles.includes(this.props.file)} 
+                               checked={this.props.selectedFiles.includes(this.props.file)} 
                                onChange={() => this.props.onSelectChange(this.props.file)}                               
                                style={{ marginRight: "10px" }} 
                         />
@@ -84,7 +84,7 @@ class File extends Component {
                     <td>
                         {/* Description */}
                         <input type="checkbox" 
-                               checked={() => this.props.selectedFiles.includes(this.props.file)} 
+                               checked={this.props.selectedFiles.includes(this.props.file)} 
                                onChange={() => this.props.onSelectChange(this.props.file)}                               
                                style={{ marginRight: "10px" }} 
                         />

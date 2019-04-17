@@ -61,17 +61,23 @@ class Explorer extends Component {
         if (!this.state.selectedFiles.includes(chosenFile)) {
             this.setState(prevState => {
                 return {
-                    selectedFiles: [prevState.selectedFiles.push(chosenFile)]
+                    selectedFiles: [...prevState.selectedFiles, chosenFile]
                 }
             })
         }
         else {
             this.setState(prevState => {
                 return {
-                    selectedFiles: [prevState.selectedFiles.pop(chosenFile)]
+                    selectedFiles: [...prevState.selectedFiles.filter(file => file !== chosenFile)]
                 }
             })
         }
+    }
+
+    selectAll = () => {
+        this.state.selectedFiles !== this.state.files ? 
+        this.setState({selectedFiles: this.state.files}) :
+        this.setState({selectedFiles: []})
     }
 
     render() {
@@ -95,6 +101,7 @@ class Explorer extends Component {
                             dirUpdate={this.dirUpdate}
                             selectedFiles={this.state.selectedFiles}
                             onSelectChange={this.onSelectChange}
+                            selectAll={this.selectAll}
                         />
                     </div>
                 </div>

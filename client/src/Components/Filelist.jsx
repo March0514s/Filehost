@@ -13,7 +13,11 @@ class Filelist extends Component {
             <table style={{overflowY:'scroll'}}className="table is-fullwidth is-striped fl-table">
                 <thead className="is-fullwidth">
                     <tr>
-                        <td><input type="checkbox" style={{ marginRight: "10px" }} /> Description<i className="fa fa-arrow-up" /> </td>
+                        <td><input type="checkbox" 
+                                   style={{ marginRight: "10px" }}
+                                   checked={this.props.selectedFiles.length ? this.props.selectedFiles.length === this.props.files.length : ""}
+                                   onChange={this.props.selectAll} 
+                            /> Description<i className="fa fa-arrow-up" /> </td>
                         <td> Sharing</td>
                         <td> Actions</td>
                     </tr>
