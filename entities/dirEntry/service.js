@@ -8,6 +8,7 @@ exports.endpointPrefix = '/api/dirEntries';
 exports.register = app => {
   app.use(exports.endpointPrefix, dbService({
     Model: DirEntriesModel,
+    multi: ['patch', 'remove'],
   }));
 
   const serviceInstance = exports.instance = (
