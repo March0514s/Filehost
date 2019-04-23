@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import qs from 'qs';
 
 import Sidebar from '../Components/Sidebar';
 import UserHeader from '../Components/UserHeader';
@@ -19,7 +20,9 @@ class Explorer extends Component {
             selectedFile: null,
             curDir: { name: 'Filehost', _id: 'root' },
             prevDirStruct: [],
-            selectedFiles: []
+            selectedFiles: [],
+            transferSource: [],
+            dirSource: {_id: 'root'}
 
         }
     }
@@ -54,6 +57,7 @@ class Explorer extends Component {
 
         })
 
+        this.setState({selectedFiles: []})
         this.setState({ curDir: folder }, () => this.dirUpdate(true));
     }
 
@@ -75,15 +79,46 @@ class Explorer extends Component {
     }
 
     selectAll = () => {
-        this.state.selectedFiles !== this.state.files ? 
+        this.state.selectedFiles.length !== this.state.files.length ? 
         this.setState({selectedFiles: this.state.files}) :
         this.setState({selectedFiles: []})
+    }
+
+    transferClick = () => {
+        this.setState({transferSource: this.state.selectedFiles, dirSource: this.state.curDir});
+        
+        
+    }
+
+    move = async () => {
+        const res = await fetch(`/api/dirEntries?${qs.stringify({
+            id: {
+                $in: this.state.transferSource.map(x => x._id),
+            },
+        })}`, {
+            method: 'PATCH',
+            headers: { authorization: this.props.token,
+                       'content-type': 'application/json' },
+            body: JSON.stringify({
+                parent: this.state.curDir._id
+            })
+        })
+
+        return res
     }
 
     render() {
         return (
             <div className="columns" style={{ marginRight: '10px' }}>
-                <Sidebar modalActionCB={this.modalAction} />
+                <Sidebar modalActionCB={this.modalAction}
+                         selectedFiles={this.state.selectedFiles}
+                         files={this.state.files}
+                         transferSource={this.state.transferSource}
+                         dirSource={this.state.dirSource}
+                         curDir={this.state.curDir}
+                         transferClick={this.transferClick}
+                         move={this.move} 
+                />
                 <div className="column">
                     <UserHeader token={this.props.token}
                         updateTokenCB={this.props.updateTokenCB}
