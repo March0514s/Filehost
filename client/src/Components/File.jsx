@@ -23,11 +23,20 @@ class File extends Component {
 
     }
 
+    singleFileSelect = () => {
+        this.props.onSelectChange(this.props.file);
+    }
+    
+
+    singleFileMove = () => {
+        this.props.transferClick();
+    }
+
     //Expecting server solution to use an anchor instead. 
     downloadFile = async () => {
         const res = await fetch(`/files/${this.props.file._id}/${this.props.file.name}`, {
             method: 'GET',
-            headers: { authorization: this.props.token }
+            headers: { authorization: this.props.token } 
         });
 
         if (!res.ok) {
@@ -114,8 +123,8 @@ class File extends Component {
                                 <button className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-copy" /> Copy
                                     </button>
-                                <button className="button dropdown-item is-white is-primary is-inverted">
-                                    <i className="fas fa-file-export" /> Move
+                                <button onMouseOver={this.singleFileSelect} onClick={this.singleFileMove} className="button dropdown-item is-white is-primary is-inverted">
+                                    <i className="fas fa-file-export" /> Transfer
                                     </button>
                                 <button onClick={this.rename} className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-edit" /> Rename

@@ -41,12 +41,12 @@ class Sidebar extends Component {
                         <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-trash-alt" /> Delete...</button>
                     </div>
 
-                    <div className={this.props.transferSource.length > 0 ?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
+                    <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id && !this.props.transferSource.includes(this.props.curDir)?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
                         <hr />
                         <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-paste" /> Paste</button>
                     </div>
-                    <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id ?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
-                        <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-file-import" /> Move From</button>
+                    <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id && !this.props.transferSource.includes(this.props.curDir) ?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
+                        <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-file-import" /> Move</button>
                     </div>
 
                 </div>

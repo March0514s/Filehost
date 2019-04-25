@@ -92,7 +92,7 @@ class Explorer extends Component {
 
     move = async () => {
         const res = await fetch(`/api/dirEntries?${qs.stringify({
-            id: {
+            _id: {
                 $in: this.state.transferSource.map(x => x._id),
             },
         })}`, {
@@ -103,8 +103,11 @@ class Explorer extends Component {
                 parent: this.state.curDir._id
             })
         })
-
+        
+        this.setState({transferSource: []});
+        this.dirUpdate(true)
         return res
+        
     }
 
     render() {
@@ -137,6 +140,11 @@ class Explorer extends Component {
                             selectedFiles={this.state.selectedFiles}
                             onSelectChange={this.onSelectChange}
                             selectAll={this.selectAll}
+                            transferSource={this.state.transferSource}
+                            dirSource={this.state.dirSource}
+                            curDir={this.state.curDir}
+                            transferClick={this.transferClick}
+                            move={this.move} 
                         />
                     </div>
                 </div>

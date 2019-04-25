@@ -34,8 +34,11 @@ class Filelist extends Component {
                                        dirUpdate={this.props.dirUpdate}
                                        onSelectChange={this.props.onSelectChange}
                                        selectedFiles={this.props.selectedFiles}
-                                    
-                                       
+                                       transferSource={this.props.transferSource}
+                                       dirSource={this.props.dirSource}
+                                       curDir={this.props.curDir}
+                                       transferClick={this.props.transferClick}
+                                       move={this.props.move}
                         />
                         
                     ) :  <tr>
