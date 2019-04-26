@@ -120,7 +120,8 @@ class Explorer extends Component {
                          dirSource={this.state.dirSource}
                          curDir={this.state.curDir}
                          transferClick={this.transferClick}
-                         move={this.move} 
+                         move={this.move}
+                         prevDirStruct={this.state.prevDirStruct} 
                 />
                 <div className="column">
                     <UserHeader token={this.props.token}
