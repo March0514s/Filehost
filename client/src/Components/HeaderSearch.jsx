@@ -38,7 +38,7 @@ class HeaderSearch extends Component {
                                             .slice(0, this.props.prevDirStruct.findIndex(k => k._id === this.props.dir.parent))
                                             .filter(dir => dir.name)
                                             .map(dir => {
-                                                return <div class="dropdown-content">
+                                                return <div class="dropdown-content" key={dir._id}>
                                                     <span class="dropdown-item dir-element" key={dir._id} onClick={() => this.props.changeDir(dir)}>
                                                         <i style={{ marginRight: "2px" }} className="far fa-folder"></i>
                                                         {dir.name}

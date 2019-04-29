@@ -16,9 +16,11 @@ class Sidebar extends Component {
     }
 
     isSubDir = () => {
-        const sourceIds = this.props.transferSource.map(x => x.id), folderStructure = this.props.prevDirStruct.map(x => x.parent);
-        return (sourceIds.forEach(id => folderStructure.findIndex(id)) ? true : false ) 
-        
+        const sourceIds = this.props.transferSource.map(x => x._id),
+              folderStruct = this.props.prevDirStruct.slice(0, this.props.prevDirStruct.findIndex(k => k._id === this.props.dir._id));
+
+              console.log(sourceIds.some(x => folderStruct.find(() => x))   )
+
     }
 
     render() {
@@ -46,7 +48,6 @@ class Sidebar extends Component {
                         <button onClick={this.props.transferClick} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file-export" />Transfer</button>
                         <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-trash-alt" /> Delete...</button>
                     </div>
-{/* !this.props.transferSource.includes(this.props.curDir) */}
                     <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id && !this.isSubDir ?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
                         <hr />
                         <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-paste" /> Paste</button>
@@ -54,7 +55,9 @@ class Sidebar extends Component {
                     <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id && !this.isSubDir ?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
                         <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-file-import" /> Move</button>
                     </div>
-
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                        <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.isSubDir}><i className="fas fa-file-import" /> Test</button>
+                    </div>
                 </div>
 
             </div>
