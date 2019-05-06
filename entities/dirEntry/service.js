@@ -1,6 +1,7 @@
 const DirEntriesModel = require('./model');
 const blockExternalAccess = require('../../hooks/blockExternalAccess');
 const dbService = require('feathers-nedb');
+const getOriginalCtx = require('../../utils/getOriginalCtx');
 const requireAuthToken = require('../../hooks/requireAuthToken');
 
 exports.endpointPrefix = '/api/dirEntries';
@@ -21,16 +22,21 @@ exports.register = app => {
         requireAuthToken(),
 
         ctx => {
-          const { query, req } = ctx.params;
+          const { query } = ctx.params;
+          const { req } = getOriginalCtx(ctx).params;
 
           // TODO: Validate accessPolicy.
 
-          query.owner = req.token.user;
+          // Automatically limit access to non-root
+          // dirEntries by owner.
+          if (query._id !== 'root') {
+            query.owner = req.token.user;
+          }
         },
       ],
 
       get: [
-        blockExternalAccess(404),
+        requireAuthToken(),
       ],
 
       create: [
@@ -117,6 +123,55 @@ exports.register = app => {
     },
 
     after: {
+      get: [
+        async ctx => {
+          // TODO: Validate / filter by accessPolicy.
+
+          const parentIds = new Set();
+          const path = [ctx.result];
+
+          while (path[0].parent) {
+            const parent = path[0].parent;
+
+            if (parentIds.has(parent)) {
+              throw new Error(
+                `Cyclic parent ID: ${parent}.`,
+              );
+            }
+
+            parentIds.add(parent);
+
+            const parentEntry = (
+              await exports.instance.find({
+                originalCtx: ctx,
+                query: { _id: parent },
+              })
+            )[0];
+
+            if (!parentEntry) {
+              throw new Error(
+                `Missing parent: ${parent}.`,
+              );
+            }
+
+            path.unshift(parentEntry);
+          }
+
+          path.pop();
+          path.reverse();
+
+          const children = await exports.instance.find({
+            originalCtx: ctx,
+
+            query: {
+              parent: ctx.result._id,
+            },
+          });
+
+          ctx.result.dirEntries = { path, children };
+        },
+      ],
+
       // TODO: Delete unreferenced uploads.
       // TODO: Delete files on disk.
     },
