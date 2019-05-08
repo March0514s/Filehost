@@ -28,11 +28,13 @@ class Explorer extends Component {
     }
 
     async componentDidMount() {
-        this.setState({ files: await this.loadList() });
+        let myRes = await this.loadList();
+        this.setState({ files: myRes.dirEntries.children });
+        this.setState({prevDirStruct: myRes.dirEntries.path});
     }
 
     loadList = async () => {
-        const res = await fetch(`/api/dirEntries?parent=${this.state.curDir._id}`, {
+        const res = await fetch(`/api/dirEntries/${this.state.curDir._id}`, {
             method: 'GET',
             headers: { authorization: this.props.token }
         })
@@ -45,18 +47,13 @@ class Explorer extends Component {
     fileSelection = file => this.setState({ selectedFile: file });
 
     dirUpdate = async status => {
-        if (status) this.setState({ files: await this.loadList() });
+        let myRes = await this.loadList();
+        if (status) this.setState({ files: myRes.dirEntries.children });
     }
 
-    changeDir = (folder) => {
-        this.setState(prevState => {
-            return {
-                prevDirStruct: [...prevState.prevDirStruct, this.state.curDir]
-            }
-
-
-        })
-
+    changeDir = async (folder) => {
+        let myRes = await this.loadList();
+        this.setState({prevDirStruct: myRes.dirEntries.path}, () => console.log(myRes.dirEntries));
         this.setState({selectedFiles: []})
         this.setState({ curDir: folder }, () => this.dirUpdate(true));
     }
@@ -131,6 +128,7 @@ class Explorer extends Component {
                     <HeaderSearch dir={this.state.curDir}
                         changeDir={this.changeDir}
                         prevDirStruct={this.state.prevDirStruct}
+                        dir={this.state.curDir}
                     />
                     <div>
                         <Filelist modalActionCB={this.modalAction}

@@ -2,24 +2,26 @@ import React, { Component } from 'react';
 import { doesNotReject } from 'assert';
 
 class HeaderSearch extends Component {
-    // constructor(props){
-    //     super(props);
-    // }
+    constructor(props){
+        super(props);
+
+        this.state = {
+            curPath: [...this.props.prevDirStruct, this.props.dir]
+        }
+    }
+
+    handleClick = () => {
+        this.setState({curPath: [...this.props.prevDirStruct, this.props.dir]}, () => this.forceUpdate)
+    };
 
     render() {
         return (
             <div className="columns">
                 <div className="column">
                     {
-                        this.props.dir._id === 'root' ?
-                            <h1 className="title">
-                                Filehost
-                            </h1>
-                            :
-
                             <div className='is-flex' style={{ flexDirection: "colum" }}>
                                 {/* Dropdown menu */}
-                                {this.props.prevDirStruct
+                                {/* {this.props.prevDirStruct
                                             .slice(0, this.props.prevDirStruct.findIndex(k => k._id === this.props.dir.parent))
                                             .filter(dir => dir.name).length > 0 ?
                                 <div className="dropdown is-hoverable   ">
@@ -38,8 +40,8 @@ class HeaderSearch extends Component {
                                             .slice(0, this.props.prevDirStruct.findIndex(k => k._id === this.props.dir.parent))
                                             .filter(dir => dir.name)
                                             .map(dir => {
-                                                return <div class="dropdown-content" key={dir._id}>
-                                                    <span class="dropdown-item dir-element" key={dir._id} onClick={() => this.props.changeDir(dir)}>
+                                                return <div className="dropdown-content" key={dir._id}>
+                                                    <span className="dropdown-item dir-element" key={dir._id} onClick={() => this.props.changeDir(dir)}>
                                                         <i style={{ marginRight: "2px" }} className="far fa-folder"></i>
                                                         {dir.name}
                                                     </span>
@@ -47,11 +49,29 @@ class HeaderSearch extends Component {
                                             })}
                                     </div>
                                 </div>
-                                :
-                                ''}
+                                 */}
 
                                 {/* Dir Text */}
-                                <div className="title">
+                                {
+                                    <div className="title">
+                                        <span className="title">
+                                            <button className={'btn'} onClick={this.handleClick} >UPDATE FUCKING STATE</button>
+                                            {   
+                                                this.props.dir.parent ? 
+                                                this.props.dir.parent === 'root' ? 
+                                                'Filehost' : 
+                                                this.props.dir.parent : //Acess the parent name initially this.props.dir.parent leads to a cryptic ID.
+                                                '' 
+                                            }
+                                            {
+                                                this.props.dir.parent ?
+                                                `/${this.props.dir.name}` :
+                                                `${this.props.dir.name}` 
+                                            }
+                                        </span>
+                                    </div>
+                                }
+                                {/* <div className="title">
                                     <span className='dir-element' onClick={() => this.props.changeDir(this.props.prevDirStruct.filter(dir => dir._id === this.props.dir.parent)[0])}>
                                         {!this.props.prevDirStruct.filter(dir => dir._id === this.props.dir.parent)[0].name ?
                                             'Filehost' :
@@ -62,7 +82,7 @@ class HeaderSearch extends Component {
                                         <i style={{ marginLeft: '8px', marginRight: '5px' }} className="fas fa-caret-right"></i>
                                     </span>
                                     {this.props.dir.name}
-                                </div>
+                                </div> */}
                             </div>
 
                     }
