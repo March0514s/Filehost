@@ -48,7 +48,6 @@ class Explorer extends Component {
 
         const curDir = await res.json();
 
-        console.log('loadDir / newCurDir:', curDir);
         this.setState({
           curDir,
           selectedFiles: [],
@@ -62,14 +61,12 @@ class Explorer extends Component {
     fileSelection = file => this.setState({ selectedFile: file });
 
     dirUpdate = async status => {
-        console.log('dirUpdate', status);
         if (status) {
           await this.loadDir();
         }
     }
 
     changeDir = async newDir => {
-        console.log('changeDir', newDir);
         await this.loadDir(newDir._id);
     }
 

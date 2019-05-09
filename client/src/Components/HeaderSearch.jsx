@@ -8,15 +8,11 @@ class HeaderSearch extends Component {
         this.state = {
             curPath: [...this.props.prevDirStruct, this.props.dir]
         }
-        console.log('->', this.state.curPath);
     }
 
     componentDidUpdate(prevProps) {
-      console.log(this.props);
       if (prevProps.prevDirStruct !== this.props.prevDirStruct) {
-          this.setState({curPath: [...this.props.prevDirStruct, this.props.dir]}, () => {
-            console.log('=>', this.state.curPath);
-          });
+          this.setState({curPath: [...this.props.prevDirStruct, this.props.dir]});
       }
     }
 
