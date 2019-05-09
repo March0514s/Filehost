@@ -55,7 +55,6 @@ class HeaderSearch extends Component {
                                 {
                                     <div className="title">
                                         <span className="title">
-                                            <button className={'btn'} onClick={this.handleClick} >UPDATE FUCKING STATE</button>
                                             {   
                                                 this.props.dir.parent ? 
                                                 this.props.dir.parent === 'root' ? 
