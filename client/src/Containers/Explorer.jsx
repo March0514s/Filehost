@@ -18,8 +18,17 @@ class Explorer extends Component {
             modalAction: null,
             files: null,
             selectedFile: null,
-            curDir: { name: 'Filehost', _id: 'root' },
-            prevDirStruct: [],
+
+            curDir: {
+              _id: 'root',
+              name: 'Filehost',
+
+              dirEntries: {
+                parentPath: [],
+                children: null,
+              },
+            },
+
             selectedFiles: [],
             transferSource: [],
             dirSource: {_id: 'root'}
@@ -28,16 +37,24 @@ class Explorer extends Component {
     }
 
     async componentDidMount() {
-        this.setState({ files: await this.loadList() });
+        await this.loadDir();
     }
 
-    loadList = async () => {
-        const res = await fetch(`/api/dirEntries?parent=${this.state.curDir._id}`, {
+    loadDir = async id => {
+        const res = await fetch(`/api/dirEntries/${id || this.state.curDir._id}`, {
             method: 'GET',
             headers: { authorization: this.props.token }
-        })
-        this.setState({ dirChanges: false });
-        return await res.json();
+        });
+
+        const curDir = await res.json();
+
+        console.log('loadDir / newCurDir:', curDir);
+        this.setState({
+          curDir,
+          selectedFiles: [],
+        });
+
+        return curDir;
     };
 
     modalAction = action => this.setState({ modalAction: action });
@@ -45,20 +62,15 @@ class Explorer extends Component {
     fileSelection = file => this.setState({ selectedFile: file });
 
     dirUpdate = async status => {
-        if (status) this.setState({ files: await this.loadList() });
+        console.log('dirUpdate', status);
+        if (status) {
+          await this.loadDir();
+        }
     }
 
-    changeDir = (folder) => {
-        this.setState(prevState => {
-            return {
-                prevDirStruct: [...prevState.prevDirStruct, this.state.curDir]
-            }
-
-
-        })
-
-        this.setState({selectedFiles: []})
-        this.setState({ curDir: folder }, () => this.dirUpdate(true));
+    changeDir = async newDir => {
+        console.log('changeDir', newDir);
+        await this.loadDir(newDir._id);
     }
 
     onSelectChange = chosenFile => {
@@ -115,13 +127,13 @@ class Explorer extends Component {
             <div className="columns" style={{ marginRight: '10px' }}>
                 <Sidebar modalActionCB={this.modalAction}
                          selectedFiles={this.state.selectedFiles}
-                         files={this.state.files}
+                         files={this.state.curDir.dirEntries.children}
                          transferSource={this.state.transferSource}
                          dirSource={this.state.dirSource}
                          curDir={this.state.curDir}
                          transferClick={this.transferClick}
                          move={this.move}
-                         prevDirStruct={this.state.prevDirStruct} 
+                         prevDirStruct={this.state.curDir.dirEntries.parentPath} 
                          dir={this.state.curDir}
                 />
                 <div className="column">
@@ -130,15 +142,14 @@ class Explorer extends Component {
                     />
                     <HeaderSearch dir={this.state.curDir}
                         changeDir={this.changeDir}
-                        prevDirStruct={this.state.prevDirStruct}
+                        prevDirStruct={this.state.curDir.dirEntries.parentPath}
                     />
                     <div>
                         <Filelist modalActionCB={this.modalAction}
                             fileSelection={this.fileSelection}
                             token={this.props.token}
-                            files={this.state.files}
+                            files={this.state.curDir.dirEntries.children}
                             dir={this.changeDir}
-                            dirUpdate={this.dirUpdate}
                             selectedFiles={this.state.selectedFiles}
                             onSelectChange={this.onSelectChange}
                             selectAll={this.selectAll}

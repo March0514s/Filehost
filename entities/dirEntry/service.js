@@ -157,7 +157,7 @@ exports.register = app => {
             path.unshift(parentEntry);
           }
 
-          const parentPath = path.slice(0, -1).reverse();
+          const parentPath = path.slice(0, -1);
 
           const children = await exports.instance.find({
             originalCtx: ctx,
