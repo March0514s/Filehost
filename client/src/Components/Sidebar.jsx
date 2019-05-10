@@ -34,7 +34,7 @@ class Sidebar extends Component {
                     </figure>
                 </div>
                 <div style={{ marginRight: "70px", marginTop: "45px", display: "flex", flexDirection: "column" }}>
-                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file" /> My Files</button>
+                    <button onClick={() => this.props.changeDir(this.props.prevDirStruct.find(dir => dir._id ==='root'))}style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file" /> My Files</button>
                     <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-image" /> My Photos</button>
                     <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-share-alt" /> Shared Files</button>
                     <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-link" /> Links</button>
