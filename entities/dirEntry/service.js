@@ -157,8 +157,7 @@ exports.register = app => {
             path.unshift(parentEntry);
           }
 
-          path.pop();
-          path.reverse();
+          const parentPath = path.slice(0, -1);
 
           const children = await exports.instance.find({
             originalCtx: ctx,
@@ -168,7 +167,7 @@ exports.register = app => {
             },
           });
 
-          ctx.result.dirEntries = { path, children };
+          ctx.result.dirEntries = { parentPath, children };
         },
       ],
 

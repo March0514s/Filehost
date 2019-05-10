@@ -67,7 +67,6 @@ class File extends Component {
 
     openFolder = () => {
         this.props.dir(this.props.file);
-        this.props.dirUpdate(true);
         
     }
 

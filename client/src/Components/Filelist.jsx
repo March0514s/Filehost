@@ -31,7 +31,6 @@ class Filelist extends Component {
                                        number={this.props.files.indexOf(e)} 
                                        token={this.props.token} 
                                        dir={this.props.dir}
-                                       dirUpdate={this.props.dirUpdate}
                                        onSelectChange={this.props.onSelectChange}
                                        selectedFiles={this.props.selectedFiles}
                                        transferSource={this.props.transferSource}
