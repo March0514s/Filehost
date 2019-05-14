@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import logo from '../img/logo.jpg'
 
 class Sidebar extends Component {
-    // constructor(props) {
-    //     super(props)
-    // }
+    constructor(props) {
+        super(props)
+    }
 
     upload = () => {
         this.props.modalActionCB('upload');
@@ -15,13 +15,22 @@ class Sidebar extends Component {
         this.props.modalActionCB('newDir');
     }
 
-    isSubDir = () => {
-        const sourceIds = this.props.transferSource.map(x => x._id),
-              folderStruct = this.props.prevDirStruct.slice(0, this.props.prevDirStruct.findIndex(k => k._id === this.props.dir._id));
+    isValidMove(entry) {
+        if (entry.type === 'dir') {
+            return [...this.props.curDir.parentPath, this.props.curDir].find(entry)
+        }
+        else {
+            return true
+        }
 
-        folderStruct.push(this.props.curDir);
+    }
 
-              console.log(sourceIds.some(x => folderStruct.find(() => x))   )
+    validFilter = () => {
+        const valid = this.props.transferSource.filter(entry => {
+            this.isValidMove(entry)
+        })
+
+        console.log(valid)
 
     }
 
@@ -34,7 +43,7 @@ class Sidebar extends Component {
                     </figure>
                 </div>
                 <div style={{ marginRight: "70px", marginTop: "45px", display: "flex", flexDirection: "column" }}>
-                    <button onClick={() => this.props.changeDir(this.props.prevDirStruct.find(dir => dir._id ==='root'))}style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file" /> My Files</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file" /> My Files</button>
                     <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-image" /> My Photos</button>
                     <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-share-alt" /> Shared Files</button>
                     <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-link" /> Links</button>
@@ -45,20 +54,26 @@ class Sidebar extends Component {
                     <button onClick={this.upload} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file-upload" /> New File </button>
                     <button onClick={this.newDir} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-folder-plus" /> New Folder </button>
 
+                    {/* Transfer */}
+
                     <div className={this.props.files ? this.props.selectedFiles.length > 0 && this.props.selectedFiles.length === this.props.files.length || this.props.selectedFiles.length > 1 ? "" : "is-hidden" : ''} style={{ display: "flex", flexDirection: "column" }}>
                         <hr />
                         <button onClick={this.props.transferClick} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file-export" />Transfer</button>
                         <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-trash-alt" /> Delete...</button>
                     </div>
-                    <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id && !this.isSubDir() ?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
+                    <div className={this.props.transferSource.length > 0 ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
                         <hr />
                         <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-paste" /> Paste</button>
                     </div>
-                    <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id && !this.isSubDir() ?  "" : "is-hidden" } style={{ display: "flex", flexDirection: "column" }}>
-                        <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-file-import" /> Move</button>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                        <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.isSubDir}><i className="fas fa-file-import" /> Test</button>
+                    <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
+                        <button
+                            style={{ paddingBottom: "10px", justifyContent: 'flex-start' }}
+                            className="button is-white is-primary is-inverted"
+                            onMouseDown={this.validFilter}
+                            onClick={this.props.move}>
+                            <i className="fas fa-file-import" />
+                            Move
+                        </button>
                     </div>
                 </div>
 

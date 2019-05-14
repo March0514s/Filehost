@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { doesNotReject } from 'assert';
 
 class HeaderSearch extends Component {
     constructor(props){

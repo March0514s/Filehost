@@ -131,7 +131,6 @@ class Explorer extends Component {
                          transferClick={this.transferClick}
                          move={this.move}
                          prevDirStruct={this.state.curDir.dirEntries.parentPath} 
-                         dir={this.state.curDir}
                          changeDir={this.changeDir}
                 />
                 <div className="column">
