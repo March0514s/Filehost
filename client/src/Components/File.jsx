@@ -122,7 +122,7 @@ class File extends Component {
                                 <button className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-copy" /> Copy
                                     </button>
-                                <button onMouseOver={this.singleFileSelect} onClick={this.singleFileMove} className="button dropdown-item is-white is-primary is-inverted">
+                                <button onMouseDown={this.singleFileSelect} onClick={this.singleFileMove} className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-file-export" /> Transfer
                                     </button>
                                 <button onClick={this.rename} className="button dropdown-item is-white is-primary is-inverted">

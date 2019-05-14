@@ -17,20 +17,18 @@ class Sidebar extends Component {
 
     isValidMove(entry) {
         if (entry.type === 'dir') {
-            return [...this.props.curDir.parentPath, this.props.curDir].find(entry)
+            return ![...this.props.curDir.dirEntries.parentPath, this.props.curDir].find(x => x._id === entry._id)
         }
         else {
             return true
         }
-
+        
     }
-
+    
     validFilter = () => {
-        const valid = this.props.transferSource.filter(entry => {
-            this.isValidMove(entry)
-        })
+        const valid = this.props.transferSource.every(x => this.isValidMove(x))
 
-        console.log(valid)
+        return valid
 
     }
 
@@ -68,8 +66,7 @@ class Sidebar extends Component {
                     <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
                         <button
                             style={{ paddingBottom: "10px", justifyContent: 'flex-start' }}
-                            className="button is-white is-primary is-inverted"
-                            onMouseDown={this.validFilter}
+                            className={this.validFilter() ? "button is-white is-primary is-inverted" : "is-hidden"}
                             onClick={this.props.move}>
                             <i className="fas fa-file-import" />
                             Move
