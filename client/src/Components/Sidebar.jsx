@@ -32,6 +32,50 @@ class Sidebar extends Component {
 
     }
 
+    entryToRequest(entry){
+        let occurrences = this.props.curDir.dirEntries.children.filter(x => x.name.split(/[(|.]/)[0] === entry.name.split(/[(|.]/)[0]).length;
+        let trailingNumber = occurrences > 0 ? occurrences : null;  
+        let request = {};
+        
+        this.props.curDir.dirEntries.children.filter(x => x.name === entry.name).length > 0 && occurrences ?
+        
+        this.props.curDir.dirEntries.children.find(x => x.name === `${entry.name.split(/[(|.]/)[0]}(${trailingNumber}).${entry.name.split('.')[1]}`) ? 
+        
+        request = {
+            "parent": this.props.curDir._id,
+            "type": entry.type,
+            "name": `${entry.name.split(/[(|.]/)[0]}(${++trailingNumber}).${entry.name.split('.')[1]}`,
+            "accessPolicy": "auth",
+            "uploadId": entry.uploadId
+        }
+        
+        :
+
+        request = {
+            "parent": this.props.curDir._id,
+            "type": entry.type,
+            "name": `${entry.name.split(/[(|.]/)[0]}(${trailingNumber}).${entry.name.split('.')[1]}`,
+            "accessPolicy": "auth",
+            "uploadId": entry.uploadId
+        }
+        
+        :
+
+        request = {
+            "parent": this.props.curDir._id,
+            "type": entry.type,
+            "name": entry.name,
+            "accessPolicy": "auth",
+            "uploadId": entry.uploadId
+        }
+
+        return request
+    } 
+
+    multiPaste(entries){
+        entries.map(x => this.props.paste(this.entryToRequest(x)))
+    }
+
     render() {
         return (
             <div className="column is-2 is-flex" style={{ flexDirection: "column", paddingTop: "30px", alignItems: "center" }}>
@@ -61,7 +105,7 @@ class Sidebar extends Component {
                     </div>
                     <div className={this.props.transferSource.length > 0 ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
                         <hr />
-                        <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={this.props.move}><i className="fas fa-paste" /> Paste</button>
+                        <button onClick={this.props.paste} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={() => this.multiPaste(this.props.transferSource)}><i className="fas fa-paste" /> Paste</button>
                     </div>
                     <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
                         <button

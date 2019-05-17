@@ -20,18 +20,18 @@ class Explorer extends Component {
             selectedFile: null,
 
             curDir: {
-              _id: 'root',
-              name: 'Filehost',
+                _id: 'root',
+                name: 'Filehost',
 
-              dirEntries: {
-                parentPath: [],
-                children: null,
-              },
+                dirEntries: {
+                    parentPath: [],
+                    children: null,
+                },
             },
 
             selectedFiles: [],
             transferSource: [],
-            dirSource: {_id: 'root'}
+            dirSource: { _id: 'root' }
 
         }
     }
@@ -49,8 +49,8 @@ class Explorer extends Component {
         const curDir = await res.json();
 
         this.setState({
-          curDir,
-          selectedFiles: [],
+            curDir,
+            selectedFiles: [],
         });
 
         return curDir;
@@ -62,7 +62,7 @@ class Explorer extends Component {
 
     dirUpdate = async status => {
         if (status) {
-          await this.loadDir();
+            await this.loadDir();
         }
     }
 
@@ -88,15 +88,15 @@ class Explorer extends Component {
     }
 
     selectAll = () => {
-        this.state.selectedFiles.length !== this.state.files.length ? 
-        this.setState({selectedFiles: this.state.files}) :
-        this.setState({selectedFiles: []})
+        this.state.selectedFiles.length !== this.state.files.length ?
+            this.setState({ selectedFiles: this.state.files }) :
+            this.setState({ selectedFiles: [] })
     }
 
     transferClick = () => {
-        this.setState({transferSource: this.state.selectedFiles, dirSource: this.state.curDir});
-        
-        
+        this.setState({ transferSource: this.state.selectedFiles, dirSource: this.state.curDir });
+
+
     }
 
     move = async () => {
@@ -105,33 +105,60 @@ class Explorer extends Component {
                 $in: this.state.transferSource.map(x => x._id),
             },
         })}`, {
-            method: 'PATCH',
-            headers: { authorization: this.props.token,
-                       'content-type': 'application/json' },
-            body: JSON.stringify({
-                parent: this.state.curDir._id
+                method: 'PATCH',
+                headers: {
+                    authorization: this.props.token,
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    parent: this.state.curDir._id
+                })
             })
-        })
-        
-        this.setState({transferSource: []});
+
+        this.setState({ transferSource: [] });
         this.dirUpdate(true)
         return res
-        
+
+    }
+
+    paste = async requestData => {
+        const res = await fetch('/api/dirEntries', {
+            method: 'POST',
+            headers: {
+                authorization: this.props.token,
+                'content-type': 'application/json'
+            },
+           body: JSON.stringify(requestData)
+        });
+
+        if (!res.ok) {
+            throw new Error(
+                `HTTP error: ${res.status} ${res.statusText}`,
+            );
+        }
+        else {
+            this.dirUpdate(true);
+        }
+
+        return await res.json();
+
+
     }
 
     render() {
         return (
             <div className="columns" style={{ marginRight: '10px' }}>
                 <Sidebar modalActionCB={this.modalAction}
-                         selectedFiles={this.state.selectedFiles}
-                         files={this.state.curDir.dirEntries.children}
-                         transferSource={this.state.transferSource}
-                         dirSource={this.state.dirSource}
-                         curDir={this.state.curDir}
-                         transferClick={this.transferClick}
-                         move={this.move}
-                         prevDirStruct={this.state.curDir.dirEntries.parentPath} 
-                         changeDir={this.changeDir}
+                    selectedFiles={this.state.selectedFiles}
+                    files={this.state.curDir.dirEntries.children}
+                    transferSource={this.state.transferSource}
+                    dirSource={this.state.dirSource}
+                    curDir={this.state.curDir}
+                    transferClick={this.transferClick}
+                    move={this.move}
+                    prevDirStruct={this.state.curDir.dirEntries.parentPath}
+                    changeDir={this.changeDir}
+                    paste={this.paste}
                 />
                 <div className="column">
                     <UserHeader token={this.props.token}
@@ -154,7 +181,7 @@ class Explorer extends Component {
                             dirSource={this.state.dirSource}
                             curDir={this.state.curDir}
                             transferClick={this.transferClick}
-                            move={this.move} 
+                            move={this.move}
                         />
                     </div>
                 </div>
