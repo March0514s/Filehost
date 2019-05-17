@@ -4,30 +4,52 @@ class ModalNewDir extends Component {
         super(props)
 
         this.state = {
-            value: 'New Folder'
+            value: null
         }
+    }
+
+    componentDidMount = () => {
+        let occurrences = this.props.dir.dirEntries.children.filter(x => x.name.split('(')[0] === 'New Folder').length;
+        let trailingNumber = occurrences > 0 ? occurrences : null;
+        let dirName = null;
+
+        this.props.dir.dirEntries.children.filter(x => x.name === 'New Folder').length > 0 && occurrences ?
+
+            this.props.dir.dirEntries.children.find(x => x.name === `New Folder(${trailingNumber})`) ?
+
+                dirName = `New Folder(${++trailingNumber})`
+
+                :
+
+                dirName = `New Folder(${trailingNumber})`
+
+            :
+
+            dirName = 'New Folder';
+
+        this.setState({value: dirName});
     }
 
     close = () => {
         this.props.modalActionCB(null);
     }
-    
+
     handleSubmit = e => {
         e.preventDefault();
-       this.createFolder(this.state.value);
+        this.createFolder(this.state.value);
         this.close();
 
     };
 
     handleChange = e => {
-        this.setState({value: e.target.value});
+        this.setState({ value: e.target.value });
 
     };
 
     createFolder = async folder => {
         const res = await fetch('/api/dirEntries', {
             method: 'POST',
-            headers:{
+            headers: {
                 authorization: this.props.token,
                 'content-type': 'application/json'
             },
@@ -39,12 +61,12 @@ class ModalNewDir extends Component {
             })
         });
 
-        if (!res.ok){
+        if (!res.ok) {
             throw new Error(
                 `HTTP Error ${res.status} ${res.statusText}`
             )
         }
-        else{
+        else {
             this.props.dirUpdate(true);
         }
     }
@@ -63,7 +85,7 @@ class ModalNewDir extends Component {
                             <form onSubmit={this.handleSubmit}>
                                 <div className='field' style={{ marginTop: '15px', justifyContent: 'center', display: 'flex' }}>
                                     <div className='control'>
-                                        <input className="input has-text-centered" type="text" value={this.state.value} onChange={this.handleChange}  placeholder={`${this.state.value}`} />
+                                        <input className="input has-text-centered" type="text" value={this.state.value} onChange={this.handleChange} placeholder={`${this.state.value}`} />
                                     </div>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
