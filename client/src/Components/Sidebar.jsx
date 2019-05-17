@@ -101,7 +101,7 @@ class Sidebar extends Component {
                     <div className={this.props.files ? this.props.selectedFiles.length > 0 && this.props.selectedFiles.length === this.props.files.length || this.props.selectedFiles.length > 1 ? "" : "is-hidden" : ''} style={{ display: "flex", flexDirection: "column" }}>
                         <hr />
                         <button onClick={this.props.transferClick} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file-export" />Transfer</button>
-                        <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-trash-alt" /> Delete...</button>
+                        <button onClick={() => this.props.modalActionCB('delete')} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-trash-alt" /> Delete...</button>
                     </div>
                     <div className={this.props.transferSource.length > 0 ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
                         <hr />

@@ -145,6 +145,23 @@ class Explorer extends Component {
 
     }
 
+    delete = async requestData => {
+        console.log(`removing file at /api/dirEntries/${requestData._id}`);
+        const res = await fetch(`/api/dirEntries/${requestData._id}`, {
+            method: 'DELETE',
+            headers: {authorization: this.props.token}
+        });
+
+        if (!res.ok){
+            throw new Error( `HTTP Error ${res.status} ${res.statusText}`)
+        }
+        else {
+            this.dirUpdate(true);
+        }
+        
+        
+    }
+
     render() {
         return (
             <div className="columns" style={{ marginRight: '10px' }}>
@@ -159,15 +176,16 @@ class Explorer extends Component {
                     prevDirStruct={this.state.curDir.dirEntries.parentPath}
                     changeDir={this.changeDir}
                     paste={this.paste}
-                />
+                    modalActionCB={this.modalAction}
+                    />
                 <div className="column">
                     <UserHeader token={this.props.token}
                         updateTokenCB={this.props.updateTokenCB}
-                    />
+                        />
                     <HeaderSearch dir={this.state.curDir}
                         changeDir={this.changeDir}
                         prevDirStruct={this.state.curDir.dirEntries.parentPath}
-                    />
+                        />
                     <div>
                         <Filelist modalActionCB={this.modalAction}
                             fileSelection={this.fileSelection}
@@ -182,23 +200,25 @@ class Explorer extends Component {
                             curDir={this.state.curDir}
                             transferClick={this.transferClick}
                             move={this.move}
-                        />
+                            />
                     </div>
                 </div>
                 {this.state.modalAction === 'upload' ? <ModalUpload modalActionCB={this.modalAction}
                     token={this.props.token}
                     dirUpdate={this.dirUpdate}
-                /> : ''}
+                    /> : ''}
                 {this.state.modalAction === 'newDir' ? <ModalNewDir modalActionCB={this.modalAction}
                     token={this.props.token}
                     dirUpdate={this.dirUpdate}
                     dir={this.state.curDir}
-                /> : ''}
+                    /> : ''}
                 {this.state.modalAction === 'delete' ? <ModalDelete modalActionCB={this.modalAction}
                     token={this.props.token}
                     dirUpdate={this.dirUpdate}
                     selectedFile={this.state.selectedFile}
-                /> : ''}
+                    selectedFiles={this.state.selectedFiles}
+                    delete={this.delete}
+                    /> : ''}
                 {this.state.modalAction === 'rename' ? <ModalRename modalActionCB={this.modalAction}
                     token={this.props.token}
                     dirUpdate={this.dirUpdate}

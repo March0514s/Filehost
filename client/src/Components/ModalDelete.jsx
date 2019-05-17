@@ -9,23 +9,10 @@ class ModalDelete extends Component {
     close = () => {
         this.props.modalActionCB(null);
     }
-
-    removeFile = async () => {
-        
-        console.log(`removing file at /api/dirEntries/${this.props.selectedFile._id}`);
-        const res = await fetch(`/api/dirEntries/${this.props.selectedFile._id}`, {
-            method: 'DELETE',
-            headers: {authorization: this.props.token}
-        });
-
-        if (!res.ok){
-            throw new Error( `HTTP Error ${res.status} ${res.statusText}`)
-        }
-        else {
-            this.props.dirUpdate(true);
-        }
-        
-        this.props.modalActionCB(null);
+    
+    multiDelete (entries){
+        entries.map(x => this.props.delete(x))
+        this.props.modalActionCB(null)
     }
 
     render() {
@@ -40,7 +27,7 @@ class ModalDelete extends Component {
                             <p className="has-text-centered">Are you sure you want to delete the selected files? This operation cannot be undone.</p>
                             <div style={{ marginTop: "25px", display: "flex", justifyContent: "space-between" }}>
                                 <button onClick={this.close} className="button ">Cancel</button>
-                                <button onClick={this.removeFile} className="button is-danger">Delete</button>
+                                <button onClick={() => this.multiDelete(this.props.selectedFiles)} className="button is-danger">Delete</button>
                             </div>
                         </div>
 

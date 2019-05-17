@@ -119,16 +119,13 @@ class File extends Component {
                                 <button onClick={this.downloadFile} className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-download" /> Download
                                     </button>
-                                <button className="button dropdown-item is-white is-primary is-inverted">
-                                    <i className="fas fa-copy" /> Copy
-                                    </button>
                                 <button onMouseDown={this.singleFileSelect} onClick={this.singleFileMove} className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-file-export" /> Transfer
                                     </button>
                                 <button onClick={this.rename} className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-edit" /> Rename
                                     </button>
-                                <button onClick={this.deletion} href="#" className="button dropdown-item is-white is-primary is-inverted">
+                                <button onMouseDown={this.singleFileSelect} onClick={this.deletion} href="#" className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-trash-alt" /> Delete
                                     </button>
                             </div>
