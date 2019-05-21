@@ -4,7 +4,9 @@ class ModalRename extends Component {
     constructor(props) {
         super(props)
 
-        this.newName = null;
+        this.state = {
+            newName: null
+        }
 
     }
 
@@ -12,22 +14,44 @@ class ModalRename extends Component {
         this.props.modalActionCB(null);
     }
 
-    rename = async () => {
+    rename = async newName => {
         const res = await fetch(`/api/dirEntries/${this.props.selectedFile._id}`, {
             method: 'PATCH',
             headers: { authorization: this.props.token,
                        'content-type': 'application/json' },
             body: JSON.stringify({
-                name: this.newName.value
+                name: newName
             })
         })
 
         return res
     }
 
+    duplCheck(newName){
+        const occurrences = this.props.curDir.dirEntries.children.filter(x => x.name.split(/[(|.)]/)[0] === newName.split(/[(|.)]/)[0]).length;
+        let trailingNumber = occurrences > 0 ? occurrences : null;
+        let outputName = null;
+
+        this.props.curDir.dirEntries.children.filter(x => x.name === newName).length > 0 && occurrences ?
+
+            this.props.curDir.dirEntries.children.find(x => x.name === `${newName.split(/[(|.]/)[0]}(${trailingNumber}).${newName.split('.')[1]}`) ?
+
+                outputName = `${newName.split(/[(|.]/)[0]}(${++trailingNumber}).${newName.split('.')[1]}`
+
+                :
+
+                outputName = `${newName.split(/[(|.]/)[0]}(${trailingNumber}).${newName.split('.')[1]}`
+
+            :
+
+            outputName = newName;
+
+        return outputName
+    }
+    
     handleSubmit = e => {
         e.preventDefault();
-        this.rename();
+        this.rename(this.duplCheck(this.state.newName.value));
         this.props.dirUpdate(true);
         this.close();
 
@@ -46,7 +70,7 @@ class ModalRename extends Component {
                             <form onSubmit={this.handleSubmit}>
                                 <div className='field' style={{ marginTop: '15px', justifyContent: 'center', display: 'flex' }}>
                                     <div className='control'>
-                                        <input className="input has-text-centered" type="text" name='newName' ref={ref => this.newName = ref} placeholder={this.props.selectedFile.name} />
+                                        <input className="input has-text-centered" type="text" name='newName' ref={ref => this.state.newName = ref} placeholder={this.props.selectedFile.name} />
                                     </div>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>

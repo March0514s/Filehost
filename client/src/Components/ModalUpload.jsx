@@ -40,6 +40,7 @@ class ModalUpload extends Component {
         }
     };
 
+    
     upload = async file => {
 
         const reqData = new FormData();
@@ -86,7 +87,6 @@ class ModalUpload extends Component {
 
         return await res.json();
     }
-
 
     render() {
         return (

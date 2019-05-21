@@ -223,6 +223,8 @@ class Explorer extends Component {
                     token={this.props.token}
                     dirUpdate={this.dirUpdate}
                     selectedFile={this.state.selectedFile}
+                    curDir={this.state.curDir}
+                    
                 /> : ''}
             </div>
         )
