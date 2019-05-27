@@ -46,6 +46,7 @@ class ModalUpload extends Component {
         const reqData = new FormData();
         reqData.append('size', file.size);
         reqData.append('hash', file.name);
+        //reqData.append('hash', this.props.duplCheck(file.name));
         reqData.append('file', file);
 
 

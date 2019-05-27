@@ -27,31 +27,11 @@ class ModalRename extends Component {
         return res
     }
 
-    duplCheck(newName){
-        const occurrences = this.props.curDir.dirEntries.children.filter(x => x.name.split(/[(|.)]/)[0] === newName.split(/[(|.)]/)[0]).length;
-        let trailingNumber = occurrences > 0 ? occurrences : null;
-        let outputName = null;
-
-        this.props.curDir.dirEntries.children.filter(x => x.name === newName).length > 0 && occurrences ?
-
-            this.props.curDir.dirEntries.children.find(x => x.name === `${newName.split(/[(|.]/)[0]}(${trailingNumber}).${newName.split('.')[1]}`) ?
-
-                outputName = `${newName.split(/[(|.]/)[0]}(${++trailingNumber}).${newName.split('.')[1]}`
-
-                :
-
-                outputName = `${newName.split(/[(|.]/)[0]}(${trailingNumber}).${newName.split('.')[1]}`
-
-            :
-
-            outputName = newName;
-
-        return outputName
-    }
+    
     
     handleSubmit = e => {
         e.preventDefault();
-        this.rename(this.duplCheck(this.state.newName.value));
+        this.rename(this.props.duplCheck(this.state.newName.value));
         this.props.dirUpdate(true);
         this.close();
 

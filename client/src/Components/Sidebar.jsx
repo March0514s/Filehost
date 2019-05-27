@@ -105,13 +105,13 @@ class Sidebar extends Component {
                     </div>
                     <div className={this.props.transferSource.length > 0 ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
                         <hr />
-                        <button onClick={this.props.paste} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={() => this.multiPaste(this.props.transferSource)}><i className="fas fa-paste" /> Paste</button>
+                        <button onClick={() => this.props.curDir.dirEntries.children.filter(x => this.props.transferSource.find(y => x.name === y.name)).length > 0 ? this.props.modalActionCB('duplPaste') : this.props.paste()} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" onClick={() => this.multiPaste(this.props.transferSource)}><i className="fas fa-paste" /> Paste</button>
                     </div>
                     <div className={this.props.transferSource.length > 0 && this.props.curDir._id !== this.props.dirSource._id ? "" : "is-hidden"} style={{ display: "flex", flexDirection: "column" }}>
                         <button
                             style={{ paddingBottom: "10px", justifyContent: 'flex-start' }}
                             className={this.validFilter() ? "button is-white is-primary is-inverted" : "is-hidden"}
-                            onClick={this.props.move}>
+                            onClick={() => this.props.curDir.dirEntries.children.filter(x => this.props.transferSource.find(y => x.name === y.name)).length > 0 ? this.props.modalActionCB('duplMove') : this.props.move()}>
                             <i className="fas fa-file-import" />
                             Move
                         </button>
