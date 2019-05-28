@@ -193,8 +193,11 @@ class Explorer extends Component {
 
     rename = action => {
         //Should use prevstate transferSource?
-       const renamedSource = this.state.transferSource.map(x => this.duplCheck(x.name));
-       action === 'move' ? this.setState({transferSource: renamedSource}, () => this.move()) : this.setState({transferSource: renamedSource}, () => this.paste())
+       const renamedSource = this.state.transferSource.map(x => {
+           x.name = this.duplCheck(x.name);
+           return x
+        });
+       action === 'move' ? this.setState({transferSource: renamedSource}, () => {console.log(this.state.transferSource); this.move()}) : this.setState({transferSource: renamedSource}, () => this.paste())
         
         //this.setState(prevState => {
         //    transferSource: prevState.transferSource.map(x => this.duplCheck(x.name))
