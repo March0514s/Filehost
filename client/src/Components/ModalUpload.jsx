@@ -29,7 +29,7 @@ class ModalUpload extends Component {
             
             
             const fileEntry = this.createFile({
-                parent: 'root',
+                parent: this.props.curDir._id || 'root',
                 type: 'file',
                 name: resData.hash,
                 uploadId: resData._id,

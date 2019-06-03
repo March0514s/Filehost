@@ -17,7 +17,6 @@ class Explorer extends Component {
 
         this.state = {
             modalAction: null,
-            files: null,
             selectedFile: null,
 
             curDir: {
@@ -89,8 +88,8 @@ class Explorer extends Component {
     }
 
     selectAll = () => {
-        this.state.selectedFiles.length !== this.state.files.length ?
-            this.setState({ selectedFiles: this.state.files }) :
+        this.state.selectedFiles.length !== this.state.curDir.dirEntries.children.length ?
+            this.setState({ selectedFiles: this.state.curDir.dirEntries.children }) :
             this.setState({ selectedFiles: [] })
     }
 
@@ -120,6 +119,21 @@ class Explorer extends Component {
         this.dirUpdate(true)
         return res
 
+    }
+
+    renameReq = async file => {
+        const res = await fetch(`/api/dirEntries/${file._id}`, {
+            method: 'PATCH',
+            headers: {
+                authorization: this.props.token,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: file.newName
+            })
+        })
+
+        return res
     }
 
     paste = async requestData => {
@@ -163,7 +177,7 @@ class Explorer extends Component {
 
     }
 
-    duplCheck(newName) {
+    duplCheck = newName => {
         const occurrences = this.state.curDir.dirEntries.children.filter(x => x.name.split(/[(|.)]/)[0] === newName.split(/[(|.)]/)[0]).length;
         let trailingNumber = occurrences > 0 ? occurrences : null;
         let outputName = null;
@@ -185,6 +199,47 @@ class Explorer extends Component {
         return outputName
     }
 
+    entryToRequest = entry => {
+        let occurrences = this.state.curDir.dirEntries.children.filter(x => x.name.split(/[(|.]/)[0] === entry.name.split(/[(|.]/)[0]).length;
+        let trailingNumber = occurrences > 0 ? occurrences : null;  
+        let request = {};
+        
+        this.state.curDir.dirEntries.children.filter(x => x.name === entry.name).length > 0 && occurrences ?
+        
+        this.state.curDir.dirEntries.children.find(x => x.name === `${entry.name.split(/[(|.]/)[0]}(${trailingNumber}).${entry.name.split('.')[1]}`) ? 
+        
+        request = {
+            "parent": this.state.curDir._id,
+            "type": entry.type,
+            "name": `${entry.name.split(/[(|.]/)[0]}(${++trailingNumber}).${entry.name.split('.')[1]}`,
+            "accessPolicy": "auth",
+            "uploadId": entry.uploadId
+        }
+        
+        :
+
+        request = {
+            "parent": this.state.curDir._id,
+            "type": entry.type,
+            "name": `${entry.name.split(/[(|.]/)[0]}(${trailingNumber}).${entry.name.split('.')[1]}`,
+            "accessPolicy": "auth",
+            "uploadId": entry.uploadId
+        }
+        
+        :
+
+        request = {
+            "parent": this.state.curDir._id,
+            "type": entry.type,
+            "name": entry.name,
+            "accessPolicy": "auth",
+            "uploadId": entry.uploadId
+        }
+
+        return request
+    } 
+
+
     //Prevent multiple files with the same name in the same directory
     overwrite = () => {
         const confItems = this.state.curDir.dirEntries.children.filter(x => this.state.transferSource.find(y => x.name === y.name))
@@ -192,24 +247,18 @@ class Explorer extends Component {
     }
 
     rename = action => {
-        //Should use prevstate transferSource?
-       const renamedSource = this.state.transferSource.map(x => {
-           x.name = this.duplCheck(x.name);
-           return x
+        const renamedSource = this.state.transferSource.map(x => {
+            x.newName = this.duplCheck(x.name);
+            return x
         });
-       action === 'move' ? this.setState({transferSource: renamedSource}, () => {console.log(this.state.transferSource); this.move()}) : this.setState({transferSource: renamedSource}, () => this.paste())
-        
-        //this.setState(prevState => {
-        //    transferSource: prevState.transferSource.map(x => this.duplCheck(x.name))
-        //})
+        action === 'move' ? this.setState({ transferSource: renamedSource }, () => { console.log(this.state.transferSource); console.log(this.state.transferSource);this.move(); this.state.transferSource.map(x => x.name !== x.newName ? this.renameReq(x) : null) }) : this.setState({ transferSource: renamedSource }, () => this.state.transferSource.map(x => this.paste(this.entryToRequest(x))))
     }
 
     ignore = action => {
-        //As an asynchronous method, this.move is being called before the state is updated
         const cleanClipboard = this.state.transferSource.filter(x => !this.state.curDir.dirEntries.children.find(y => x.name === y.name))
-        
-        action === 'move' ? this.setState({transferSource: cleanClipboard}, () => this.move()) : this.setState({transferSource: cleanClipboard}, () => this.paste())
-        
+
+        action === 'move' ? this.setState({ transferSource: cleanClipboard }, () => this.move()) : this.setState({ transferSource: cleanClipboard }, () => this.state.transferSource.map(x => this.paste(this.entryToRequest(x))));
+
 
     }
 
@@ -228,6 +277,7 @@ class Explorer extends Component {
                     changeDir={this.changeDir}
                     paste={this.paste}
                     modalActionCB={this.modalAction}
+                    entryToRequest={this.entryToRequest}
                 />
                 <div className="column">
                     <UserHeader token={this.props.token}
@@ -280,7 +330,7 @@ class Explorer extends Component {
                     duplCheck={this.duplCheck}
 
                 /> : ''}
-                {this.state.modalAction === ('duplMove' || 'duplPaste') ? <ModalDuplicated modalActionCB={this.modalAction}
+                {this.state.modalAction === 'duplMove' || this.state.modalAction === 'duplPaste' ? <ModalDuplicated modalActionCB={this.modalAction}
                     token={this.props.token}
                     dirUpdate={this.dirUpdate}
                     selectedFile={this.state.selectedFile}
@@ -293,6 +343,7 @@ class Explorer extends Component {
                     curAction={this.state.modalAction}
                     move={this.move}
                     paste={this.paste}
+                    entryToRequest={this.entryToRequest}
 
                 /> : ''}
 

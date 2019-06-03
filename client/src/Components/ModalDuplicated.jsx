@@ -26,7 +26,18 @@ class ModalDuplicated extends Component {
                             <hr />
                             <p className="has-text-center">One or more files you're trying to transfer have the same name of existing files in the current directory, how that should be solved?</p>
                             <div style={{ marginTop: "25px", display: "flex", justifyContent: "space-between" }}>
-                                <button onClick={this.props.curAction === 'duplMove' ? () => {this.props.overwrite();  this.props.move(); this.close()} : () => {this.props.overwrite();  this.props.paste(); this.close()}}className="button">Overwrite</button>
+                                <button onClick={this.props.curAction === 'duplMove' ? () => {this.props.overwrite();  this.props.move(); this.close()} : () => {this.props.overwrite();  this.props.transferSource.map(x => {
+                                    const request = {
+                                        "parent": this.props.curDir._id,
+                                        "type": x.type,
+                                        "name": x.name,
+                                        "accessPolicy": "auth",
+                                        "uploadId": x.uploadId
+                                    }
+
+                                    return request
+
+                                }).map(x => this.props.paste(x)); this.close()}}className="button">Overwrite</button>
                                 <button onClick={this.props.curAction === 'duplMove' ? () => {this.props.rename('move'); this.close()} : () => {this.props.rename('paste'); this.close()}} className="button">Rename</button>
                                 <button onClick={this.props.curAction === 'duplMove' ? () => {this.props.ignore('move'); this.close()} : () => {this.props.ignore('paste'); this.close()}} className="button">Ignore</button>
                                 <button onClick={this.close} className="button">Cancel</button>
