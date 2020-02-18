@@ -29,7 +29,7 @@ The authentication of this project is restricted to a test user:
 ## Troubleshooting
 
 If after loading the main page of the Filehost doesn't disappear, check if the code in the file `dirEntries.json` located in 
-`/data/db` contains at least one line: 
+`/data/db` contains at least one line, the following: 
 
 >{"_id":"root"}
 
