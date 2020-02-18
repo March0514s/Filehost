@@ -1,6 +1,37 @@
 # FileHost
 
-No time to explain. Code is worth a thousand words.
+Simple react implementation of a Filehost service.
+![](https://i.imgur.com/tWzuEX4.png)
+
+## Usage
+
+After cloning the repository in your preferred location:
+
+Install the node modules on the backend using:
+>yarn install
+
+Run the backend server using:
+>yarn start
+
+Reach for the /client folder and repeat the process:
+>yarn install
+
+Run the cliend using:
+>yarn start
+
+## Login
+
+The authentication of this project is restricted to a test user:
+
+>Login: marcus
+>Password: 1234
+
+## Troubleshooting
+
+If after loading the main page of the Filehost doesn't disappear, check if the code in the file `dirEntries.json` located in 
+`/data/db` contains at least one line: 
+
+>{"_id":"root"}
 
 ## License
 
