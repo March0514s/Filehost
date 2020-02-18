@@ -113,8 +113,8 @@ class File extends Component {
                         </div>
                         <div className="dropdown-menu" id="dropdown-menu" role="menu">
                             <div className="dropdown-content has-text-primary">
-                                <button className="button dropdown-item is-white is-primary is-inverted">
-                                    <i className="fas fa-link" /> Share
+                                <button className="button dropdown-item is-white is-primary is-inverted deactivated">
+                                    <i className="fas fa-link " /> Share
                                     </button>
                                 <button onClick={this.downloadFile} className="button dropdown-item is-white is-primary is-inverted">
                                     <i className="fas fa-download" /> Download

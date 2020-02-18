@@ -29,7 +29,7 @@ class UserHeader extends Component {
                             </div>
                             <div className="dropdown-menu" id="dropdown-menu" role="menu">
                                 <div className="dropdown-content">
-                                    <button className="button is-white dropdown-item">
+                                    <button className="button is-white dropdown-item deactivated">
                                         Settings
                             </button>
                                     <Link to='/' onClick={this.handleClick} className="dropdown-item">

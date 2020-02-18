@@ -64,11 +64,11 @@ render() {
                         </div>
                     </div>
                     <p className="is-flex" style={{ justifyContent: "center" }}>
-                        <a className='is-login-help' href="/register">Register</a>
+                        <a className='is-login-help deactivated' href="/register">Register</a>
                         ·
-                        <a className='is-login-help' href="/password-recovery">Forgot My Password</a>
+                        <a className='is-login-help deactivated' href="/password-recovery">Forgot My Password</a>
                         ·
-                        <a className='is-login-help' href="help">Need Help?</a>
+                        <a className='is-login-help ' href="help">Need Help?</a>
                     </p>
                 </div>
             </div>

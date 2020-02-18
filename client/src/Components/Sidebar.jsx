@@ -46,11 +46,11 @@ class Sidebar extends Component {
                     </figure>
                 </div>
                 <div style={{ marginRight: "70px", marginTop: "45px", display: "flex", flexDirection: "column" }}>
-                    <button onClick={() => this.props.changeDir({_id: 'root'})} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-file" /> My Files</button>
-                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-image" /> My Photos</button>
-                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-share-alt" /> Shared Files</button>
-                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="fas fa-link" /> Links</button>
-                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted" href="#"><i className="far fa-clock" /> Events</button>
+                    <button onClick={() => this.props.changeDir({_id: 'root'})} style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted deactivated" href="#"><i className="fas fa-file" /> My Files</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted deactivated" href="#"><i className="fas fa-image" /> My Photos</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted deactivated" href="#"><i className="fas fa-share-alt" /> Shared Files</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted deactivated" href="#"><i className="fas fa-link" /> Links</button>
+                    <button style={{ paddingBottom: "10px", justifyContent: 'flex-start' }} className="button is-white is-primary is-inverted deactivated" href="#"><i className="far fa-clock" /> Events</button>
                 </div>
                 <hr />
                 <div style={{ marginRight: "70px", display: "flex", flexDirection: "column" }}>
